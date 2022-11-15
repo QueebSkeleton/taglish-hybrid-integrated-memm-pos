@@ -13,22 +13,22 @@
     <div class="collapse navbar-collapse" id="taggerNavbarContent">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#">Home</a>
+          <a class="nav-link" href="{% url "tagger:index" %}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">About / How Tos</a>
+          <a class="nav-link" href="{% url "tagger:about" %}">About / How Tos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Cite</a>
+          <a class="nav-link" href="{% url "tagger:cite" %}">Cite</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Annotator</a>
+          <a class="nav-link" href="{% url "tagger:annotator" %}">Annotator</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Online Model</a>
+          <a class="nav-link" href="{% url "tagger:online_model" %}">Online Model</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
+          <a class="nav-link" href="{% url "tagger:contact" %}">Contact</a>
         </li>
       </ul>
     </div>

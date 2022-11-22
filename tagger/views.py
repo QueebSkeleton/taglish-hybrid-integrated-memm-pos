@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.http import JsonResponse
+
+from nltk.tokenize import word_tokenize
 
 
 def index(request):
@@ -15,6 +18,12 @@ def cite(request):
 
 def annotator(request):
     return render(request, "tagger/annotator.html", {})
+
+
+def tokenize(request):
+    input_sentence = request.GET.get('sentence')
+    tokens = word_tokenize(input_sentence)
+    return JsonResponse({'tokens': tokens})
 
 
 def online_model(request):

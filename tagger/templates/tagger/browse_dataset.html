@@ -1,0 +1,84 @@
+{% extends "tagger/base.html" %}
+{% block content %}
+  <!-- Header Section -->
+  <div class="row mb-3">
+    <div class="col-sm-8">
+      <h1 class="h5">Website dataset</h1>
+    </div>
+    <div class="col-sm-4">
+      <div class="input-group input-group-sm">
+        <input type="text"
+                name="q"
+                placeholder="Search by sentence id..."
+                class="form-control"
+                required/>
+        <span class="input-group-text">
+          <i class="fa-solid fa-search"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+  <!-- Table Section -->
+  <div class="table-responsive border-top pt-3 mb-3">
+    <table class="table table-sm table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Lang</th>
+          <th>Sentence</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>3585</td>
+          <td>Taglish</td>
+          <td>{% lorem 10 w %}</td>
+          <td>
+            <!-- View Button -->
+            <button type="button" class="btn btn-sm btn-light">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>3585</td>
+          <td>Taglish</td>
+          <td>{% lorem 10 w %}</td>
+          <td>
+            <!-- View Button -->
+            <button type="button" class="btn btn-sm btn-light">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>3585</td>
+          <td>Taglish</td>
+          <td>{% lorem 10 w %}</td>
+          <td>
+            <!-- View Button -->
+            <button type="button" class="btn btn-sm btn-light">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Pagination Information Section -->
+  <div class="row pt-3 border-top">
+    <div class="col-sm-6">
+      Page 1 of 8
+    </div>
+    <div class="col-sm-6 text-end">
+      <div class="btn-group" role="group" aria-label="Pagination buttons">
+        <button type="button" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i></button>
+        <button type="button" class="btn btn-light">1</button>
+        <button type="button" class="btn btn-light">2</button>
+        <button type="button" class="btn btn-light">3</button>
+        <button type="button" class="btn btn-light"><i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

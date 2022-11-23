@@ -1,5 +1,7 @@
 {% extends "tagger/base.html" %}
 
+{% load static %}
+
 {% block content %}
   <!-- Current Session Area -->
   <div class="mb-3">
@@ -151,10 +153,10 @@
       </div>
     </div>
   </div>
+  <!-- Annotation Area -->
+  <div id="annotator-app-root"></div>
 {% endblock content %}
 
 {% block page_js %}
-  <script>
-
-  </script>
+  <script src="{% static "tagger/js/annotator.js" %}"></script>
 {% endblock page_js %}

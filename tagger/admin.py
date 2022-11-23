@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import AnnotatedSentence
+
+
+@admin.register(AnnotatedSentence)
+class AnnotatedSentenceModelAdmin(admin.ModelAdmin):
+    list_display = ('id', 'language', 'raw',)
+    search_fields = ('id',)

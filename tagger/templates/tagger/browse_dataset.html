@@ -9,7 +9,8 @@
       <div class="input-group input-group-sm">
         <input type="text"
                 name="q"
-                placeholder="Search by sentence id..."
+                id="q"
+                placeholder="Search..."
                 class="form-control"
                 required/>
         <span class="input-group-text">
@@ -30,55 +31,98 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>3585</td>
-          <td>Taglish</td>
-          <td>{% lorem 10 w %}</td>
-          <td>
-            <!-- View Button -->
-            <button type="button" class="btn btn-sm btn-light">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>3585</td>
-          <td>Taglish</td>
-          <td>{% lorem 10 w %}</td>
-          <td>
-            <!-- View Button -->
-            <button type="button" class="btn btn-sm btn-light">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>3585</td>
-          <td>Taglish</td>
-          <td>{% lorem 10 w %}</td>
-          <td>
-            <!-- View Button -->
-            <button type="button" class="btn btn-sm btn-light">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-          </td>
-        </tr>
+        {% for annotated_sentence in page_obj %}
+          <tr>
+            <td>{{ annotated_sentence.id }}</td>
+            <td>{{ annotated_sentence.language }}</td>
+            <td>{{ annotated_sentence.raw }}</td>
+            <td>
+              <!-- View Button -->
+              <button type="button" class="btn btn-sm btn-light view-annotation-button"
+                data-pos-id="{{ annotated_sentence.id }}"
+                data-bs-toggle="modal" data-bs-target="#viewAnnotationModal">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="4" class="text-center">No items yet.</td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
   <!-- Pagination Information Section -->
   <div class="row pt-3 border-top">
     <div class="col-sm-6">
-      Page 1 of 8
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
     </div>
     <div class="col-sm-6 text-end">
       <div class="btn-group" role="group" aria-label="Pagination buttons">
-        <button type="button" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i></button>
-        <button type="button" class="btn btn-light">1</button>
-        <button type="button" class="btn btn-light">2</button>
-        <button type="button" class="btn btn-light">3</button>
-        <button type="button" class="btn btn-light"><i class="fa-solid fa-arrow-right"></i></button>
+        {% if page_obj.has_previous %}
+          <a href="?page=1" class="btn btn-light">
+            <i class="fa-solid fa-angles-left"></i>
+          </a>
+          <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-light">
+            <i class="fa-solid fa-angle-left"></i>
+          </a>
+        {% endif %}
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" class="btn btn-light">
+            <i class="fa-solid fa-angle-right"></i>
+          </a>
+          <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-light">
+            <i class="fa-solid fa-angles-right"></i>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <!-- View Annotation Modal -->
+  <div class="modal fade" id="viewAnnotationModal"
+    tabindex="-1" aria-labelledby="viewAnnotationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewAnnotationModalLabel">Annotated Sentence</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
 {% endblock content %}
+
+{% block page_js %}
+  <script>
+    const viewButtons = document.getElementsByClassName("view-annotation-button");
+    if(viewButtons) {
+      for(let viewButton of viewButtons) {
+        viewButton.addEventListener('click', (event) => {
+          const id = viewButton.dataset.posId;
+          let request = new XMLHttpRequest();
+          request.onload = () => {
+            let modalBody = document.querySelector("#viewAnnotationModal .modal-body");
+            let annotated_tokens = JSON.parse(request.response).annotation;
+            // Render the tags
+            modalBody.replaceChildren();
+            for(let annotated_token of annotated_tokens) {
+              let tokenElement = document.createElement("span");
+              tokenElement.className = `badge bg-pos-${annotated_token.tag.toLowerCase()} me-2 mb-2`;
+              tokenElement.appendChild(document.createTextNode(
+                `${annotated_token.token} | ${annotated_token.tag}`));
+              modalBody.appendChild(tokenElement);
+            }
+          };
+          // TODO: Find a solution that is not hardcoding the URL
+          request.open("GET", `/annotated-sentence/${id}/`);
+          request.send();
+        });
+      }
+    }
+  </script>
+{% endblock page_js %}

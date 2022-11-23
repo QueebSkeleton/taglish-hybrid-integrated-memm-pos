@@ -1,1 +1,81 @@
 {% extends "tagger/base.html" %}
+
+{% block content %}
+  <!-- Input Sentence Area -->
+  <div class="mb-3">
+    <h1 class="h5">Input sentence</h1>
+    <textarea name="sentence" rows="3" class="form-control mb-2"></textarea>
+    <button type="button" class="btn btn-sm btn-outline-primary">
+      <i class="fa-solid fa-marker"></i>
+      Predict Tags
+    </button>
+  </div>
+  <!-- Output Area -->
+  <!-- Annotation Area -->
+  <div class="border-top pt-3">
+    <div class="row">
+      <div class="col-md-8">
+        <h1 class="h5">Your sentence</h1>
+        <div class="mb-3">
+          <!-- Current words -->
+          <span class="badge bg-pos-adj">Hello | ADJ</span>
+          <span class="badge bg-pos-adv">Hello | ADV</span>
+          <span class="badge bg-pos-intj">Hello | INTJ</span>
+          <span class="badge bg-pos-noun">Hello | NOUN</span>
+          <span class="badge bg-pos-propn">Hello | PROPN</span>
+          <span class="badge bg-pos-verb">Hello | VERB</span>
+          <span class="badge bg-pos-adp">Hello | ADP</span>
+          <span class="badge bg-pos-aux">Hello | AUX</span>
+          <span class="badge bg-pos-cconj">Hello | CCONJ</span>
+          <span class="badge bg-pos-det">Hello | DET</span>
+          <span class="badge bg-pos-num">Hello | NUM</span>
+          <span class="badge bg-pos-part">Hello | PART</span>
+          <span class="badge bg-pos-pron">Hello | PRON</span>
+          <span class="badge bg-pos-sconj">Hello | SCONJ</span>
+          <span class="badge bg-pos-punct">Hello | PUNCT</span>
+          <span class="badge bg-pos-sym">Hello | SYM</span>
+          <span class="badge bg-pos-x">Hello | X</span>
+        </div>
+        <div class="py-2 border-top">
+          <button type="button" class="btn btn-sm btn-outline-success" disabled>
+            <i class="fa-solid fa-hand-point-up"></i>
+            Submit to session
+          </button>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h1 class="h5">Quick summary</h1>
+        <div class="table-responsive">
+          <table class="table table-sm table-striped">
+            <tbody>
+              <!-- Overall Summary -->
+              <tr><th colspan="2" class="text-center">Overall</th></tr>
+              <tr><td># of tokens</td><td>5</td></tr>
+              <!-- Per Tag Summary -->
+              <tr><th colspan="2" class="text-center">Per Tag (Open class)</th></tr>
+              <tr><td>ADJ</td><td>0</td></tr>
+              <tr><td>ADV</td><td>0</td></tr>
+              <tr><td>INTJ</td><td>0</td></tr>
+              <tr><td>NOUN</td><td>0</td></tr>
+              <tr><td>PROPN</td><td>0</td></tr>
+              <tr><td>VERB</td><td>0</td></tr>
+              <tr><th colspan="2" class="text-center">Per Tag (Closed class)</th></tr>
+              <tr><td>ADP</td><td>0</td></tr>
+              <tr><td>AUX</td><td>0</td></tr>
+              <tr><td>CCONJ</td><td>0</td></tr>
+              <tr><td>DET</td><td>0</td></tr>
+              <tr><td>NUM</td><td>0</td></tr>
+              <tr><td>PART</td><td>0</td></tr>
+              <tr><td>PRON</td><td>0</td></tr>
+              <tr><td>SCONJ</td><td>0</td></tr>
+              <tr><th colspan="2" class="text-center">Per Tag (Other)</th></tr>
+              <tr><td>PUNCT</td><td>0</td></tr>
+              <tr><td>SYM</td><td>0</td></tr>
+              <tr><td>X</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

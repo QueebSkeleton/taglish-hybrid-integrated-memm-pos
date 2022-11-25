@@ -1,0 +1,65 @@
+@import "../vendor/bootstrap/scss/functions";
+
+@import "../vendor/bootstrap/scss/variables";
+
+$pos-colors: (
+    "pos-adj": #EFA94A,
+    "pos-adv": #84C3BE,
+    "pos-intj": #FFE74C,
+    "pos-noun": #F44611,
+    "pos-propn": #FF5964,
+    "pos-verb": #6BF178,
+    "pos-adp": #232ED1,
+    "pos-aux": #101D42,
+    "pos-cconj": #A03472,
+    "pos-det": #592321,
+    "pos-num": #3B83BD,
+    "pos-part": #6C4675,
+    "pos-pron": #C35831,
+    "pos-sconj": #C1876B,
+    "pos-punct": #FF101F,
+    "pos-sym": #334139,
+    "pos-x": #B5B8B1
+);
+
+$theme-colors: map-merge($theme-colors, $pos-colors);
+
+@import "../vendor/bootstrap/scss/maps";
+@import "../vendor/bootstrap/scss/mixins";
+@import "../vendor/bootstrap/scss/utilities";
+
+@import "../vendor/bootstrap/scss/root";
+@import "../vendor/bootstrap/scss/reboot";
+@import "../vendor/bootstrap/scss/type";
+@import "../vendor/bootstrap/scss/images";
+@import "../vendor/bootstrap/scss/containers";
+@import "../vendor/bootstrap/scss/grid";
+@import "../vendor/bootstrap/scss/tables";
+@import "../vendor/bootstrap/scss/forms";
+@import "../vendor/bootstrap/scss/buttons";
+@import "../vendor/bootstrap/scss/transitions";
+@import "../vendor/bootstrap/scss/dropdown";
+@import "../vendor/bootstrap/scss/button-group";
+@import "../vendor/bootstrap/scss/nav";
+@import "../vendor/bootstrap/scss/navbar";
+@import "../vendor/bootstrap/scss/card";
+@import "../vendor/bootstrap/scss/accordion";
+@import "../vendor/bootstrap/scss/breadcrumb";
+@import "../vendor/bootstrap/scss/pagination";
+@import "../vendor/bootstrap/scss/badge";
+@import "../vendor/bootstrap/scss/alert";
+@import "../vendor/bootstrap/scss/progress";
+@import "../vendor/bootstrap/scss/list-group";
+@import "../vendor/bootstrap/scss/close";
+@import "../vendor/bootstrap/scss/toasts";
+@import "../vendor/bootstrap/scss/modal";
+@import "../vendor/bootstrap/scss/tooltip";
+@import "../vendor/bootstrap/scss/popover";
+@import "../vendor/bootstrap/scss/carousel";
+@import "../vendor/bootstrap/scss/spinners";
+@import "../vendor/bootstrap/scss/offcanvas";
+@import "../vendor/bootstrap/scss/placeholders";
+
+@import "../vendor/bootstrap/scss/helpers";
+
+@import "../vendor/bootstrap/scss/utilities/api";

@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 # Project-specific
+/static/
 /tagger/static/tagger/js/spa/

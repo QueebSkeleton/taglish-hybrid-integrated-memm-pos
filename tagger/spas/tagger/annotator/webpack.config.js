@@ -7,7 +7,7 @@ module.exports = {
     devtool: "inline-source-map",
     entry: "./src/index.js",
     output: {
-        path: path.resolve("../../static/tagger/js/spa"),
+        path: path.resolve("../../../static/tagger/js"),
         filename: "annotator.js"
     },
     module: {

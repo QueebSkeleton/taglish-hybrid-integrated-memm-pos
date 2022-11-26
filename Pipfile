@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 django = "*"
 nltk = "*"
+libsass = "*"
+django-compressor = "*"
+django-sass-processor = "*"
 
 [dev-packages]
 djlint = "*"

@@ -106,7 +106,7 @@ const SentenceAnnotationPanel = (props) => {
         </div>
       </Col>
       <Col md={4}>
-        <SummaryTable />
+        <SummaryTable tokens={props.tokens} tagsSummary={props.tagsSummary} />
       </Col>
     </Row>
   );
@@ -241,15 +241,15 @@ const TagButtonsPanel = (props) => {
   );
 };
 
-const SummaryTable = () => {
+const SummaryTable = (props) => {
   return (
     <Table striped hover size="sm">
       <tbody>
         <tr><th colSpan="2" className="text-center">Overall</th></tr>
-        <tr><td># of tokens</td><td>5</td></tr>
+        <tr><td># of tokens</td><td>{props.tokens.length}</td></tr>
         <tr><th colSpan="2" className="text-center">Per Tag</th></tr>
-        {POS_TAGS.map(({ tag }) =>
-          <tr key={tag}><td>{tag}</td><td>0</td></tr>)}
+        {Object.entries(props.tagsSummary).map(([tag, count]) =>
+          <tr key={tag}><td>{tag}</td><td>{count}</td></tr>)}
       </tbody>
     </Table>
   );
@@ -259,11 +259,13 @@ const App = () => {
   // Input details
   const [sentenceInput, setSentenceInput] = useState({
     id: null, raw: null, language: null
-  })
+  });
   // Flag if the form should display the annotation form or not.
   const [isAnnotating, setAnnotating] = useState(false);
   // Current tokens with their tags.
   const [tokens, setTokens] = useState(null);
+  // Summary of sentence currently being annotated
+  const [tagsSummary, setTagsSummary] = useState({});
   // Current token in "tokens" state being annotated.
   const [annotateIndex, setAnnotateIndex] = useState(-1);
   // Flag if the current sentence can be submitted now (submit button disabled?)
@@ -281,6 +283,12 @@ const App = () => {
       setTokens(response.data.tokens.map((token) => ({ token, tag: null })));
       setAnnotating(true);
       setAnnotateIndex(0);
+
+      // Initialize tags summary
+      let tagsSummary = {};
+      for(const {tag, verbose} of POS_TAGS)
+        tagsSummary[tag] = 0;
+      setTagsSummary(tagsSummary);
     };
 
     tokenizeThenInitialize();
@@ -288,9 +296,19 @@ const App = () => {
 
   // Annotate the token at annotateIndex with the given tag.
   const annotateCurrentWithTag = (tag) => {
+    // Update tags summary with new annotated tag
+    let newTagsSummary = {...tagsSummary};
+    // If there was a tag replaced, reduce its count
+    if(tokens[annotateIndex].tag)
+      newTagsSummary[tokens[annotateIndex].tag] -= 1;
+    // Update token with new tag
     let newTokens = [...tokens];
     newTokens[annotateIndex].tag = tag;
     setTokens(newTokens);
+
+    newTagsSummary[tag] += 1;
+    setTagsSummary(newTagsSummary);
+
     setAnnotateIndex(annotateIndex + 1);
 
     // Check if annotation can be submitted
@@ -322,6 +340,10 @@ const App = () => {
     let newTokens = [...tokens];
     newTokens.splice(index, 1);
     setTokens(newTokens);
+
+    let newTagsSummary = {...tagsSummary};
+    newTagsSummary[tokens[index].tag] -= 1;
+    setTagsSummary(newTagsSummary);
   };
 
   // Submits the annotated sentence to session.
@@ -344,7 +366,7 @@ const App = () => {
         disabled={isAnnotating} />
       {isAnnotating ?
         <SentenceAnnotationPanel className="border-top pt-3"
-          tokens={tokens}
+          tokens={tokens} tagsSummary={tagsSummary}
           annotateIndex={annotateIndex} setAnnotateIndex={setAnnotateIndex}
           annotateCallback={annotateCurrentWithTag}
           insertBeforeCurrentCallback={

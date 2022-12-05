@@ -45,13 +45,8 @@
       <i class="fa-solid fa-trash"></i>
       Clear session
     </a>
-    <button type="button" class="btn btn-sm btn-outline-primary">
-      <i class="fa-solid fa-file-csv"></i>
-      Save to website dataset
-      <span class="badge bg-secondary">{{ session_sentences_len }}</span>
-    </button>
     <a href="{% url "tagger:get_session_sentences_as_csv" %}"
-      class="btn btn-sm btn-outline-primary">
+      class="btn btn-sm btn-outline-primary" target="_blank">
       <i class="fa-solid fa-file-csv"></i>
       Output as CSV
       <span class="badge bg-secondary">{{ session_sentences_len }}</span>
@@ -103,7 +98,7 @@
             }
           };
           // TODO: Find a solution that is not hardcoding the URL
-          request.open("GET", `/annotated-sentence/${id}/?from=session`);
+          request.open("GET", `/annotated-sentence/${id}/`);
           request.send();
         });
       }

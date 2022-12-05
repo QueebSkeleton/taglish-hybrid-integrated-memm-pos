@@ -349,7 +349,7 @@ const App = () => {
   // Submits the annotated sentence to session.
   const onSubmitClick = (e) => {
     const submitRequest = async () => {
-      await axios.post('/save-to-session/', {
+      await axios.post('/save-sentence/', {
         ...sentenceInput,
         annotated: tokens.reduce((annotated, token) =>
           annotated + `<${token.tag} ${token.token}> `, "").trim()

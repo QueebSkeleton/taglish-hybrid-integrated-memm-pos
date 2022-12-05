@@ -33,6 +33,18 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url "tagger:contact" %}">Contact</a>
         </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url "tagger:password_change" %}">Change Password</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url "tagger:logout" %}">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url "tagger:login" %}">Login</a>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </div>

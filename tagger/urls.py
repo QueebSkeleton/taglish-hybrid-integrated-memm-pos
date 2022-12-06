@@ -1,5 +1,6 @@
 from django.urls import path, reverse_lazy, include
 from django.contrib.auth import views as auth_views
+from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import routers
 
@@ -19,17 +20,11 @@ urlpatterns = [
     path("tokenize/", views.tokenize, name="tokenize"),
     path("online-model/", views.online_model, name="online_model"),
     path("contact/", views.contact, name="contact"),
+    path("dataset-csv/", views.dataset_csv, name="dataset_csv"),
+    path("save-sentence/", views.save_sentence, name="save_sentence"),
+    path("delete-sentence/<str:id>/", views.delete_sentence, name="delete_sentence"),
     path("annotated-sentence/<str:id>/", views.fetch_annotated_sentence,
          name="fetch_annotated_sentence"),
-    # Session sentences
-    path("session-sentences/", views.browse_session_sentences,
-         name="browse_session_sentences"),
-    path("session-sentences/save/", views.add_session_sentence,
-         name="add_session_sentence"),
-    path("session-sentences/clear/", views.remove_sentences_from_session,
-         name="remove_sentences_from_session"),
-    path("session-sentences/csv/", views.get_session_sentences_as_csv,
-         name="get_session_sentences_as_csv"),
     # Auth
     path("login/",
          auth_views.LoginView.as_view(

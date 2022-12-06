@@ -10,6 +10,8 @@ export default (props) => {
   const [search, setSearch] = useState("");
   const [sentences, setSentences] = useState([]);
 
+  const [refreshCounter, setRefreshCounter] = useState(0);
+
   const [showViewModal, setShowViewModal] = useState(false);
   const [rawToShow, setRawToShow] = useState(null);
   const [annotationToShow, setAnnotationToShow] = useState(null);
@@ -34,9 +36,21 @@ export default (props) => {
     };
   };
 
+  const onDeleteClick = (index) => {
+    return () => {
+      if(confirm(`Delete annotation with ID: ${sentences[index].id}?`)) {
+        const deleteAnnotation = async () => {
+          await axios.delete(`/delete-sentence/${sentences[index].id}`);
+          setRefreshCounter(refreshCounter + 1);
+        };
+        deleteAnnotation();
+      }
+    };
+  };
+
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [refreshCounter]);
 
   return (
     <div className={props.className}>
@@ -73,7 +87,8 @@ export default (props) => {
                     onClick={() => props.editCallback(id)}>
                     <i className="fa-solid fa-edit"></i>
                   </Button>
-                  <Button variant="outline-danger">
+                  <Button variant="outline-danger"
+                    onClick={onDeleteClick(index)}>
                     <i className="fa-solid fa-trash"></i>
                   </Button>
                 </ButtonGroup>
@@ -81,6 +96,10 @@ export default (props) => {
             </tr>)}
         </tbody>
       </Table>
+      <a href="/dataset-csv/" target="_blank"
+        className="btn btn-sm btn-primary">
+        <i className="fa-solid fa-file-csv"></i> Download Dataset CSV
+      </a>
       <DisplaySentenceAnnotationModal show={showViewModal}
         setShow={setShowViewModal}
         raw={rawToShow} annotation={annotationToShow} />

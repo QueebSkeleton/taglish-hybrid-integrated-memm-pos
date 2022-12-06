@@ -42,7 +42,7 @@ export default (props) => {
           <Button size="sm" variant="outline-primary"
             onClick={props.submitCallback}
             disabled={!props.canSubmit}>
-            <i className="fa-solid fa-hand-point-up"></i> Submit to session
+            <i className="fa-solid fa-hand-point-up"></i> Save annotation
           </Button>
         </div>
       </Col>

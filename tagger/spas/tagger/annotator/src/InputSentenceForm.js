@@ -8,7 +8,7 @@ export default (props) => {
   const [sentence, setSentence] = useState("");
 
   return (
-    <>
+    <div className={props.className}>
       <h1 className="h5">Input sentence to annotate</h1>
       <Row className="mb-3">
         <Col md={6}>
@@ -36,6 +36,6 @@ export default (props) => {
         disabled={props.disabled || !id || !language || !sentence}>
         <i className="fa-solid fa-marker"></i> Start annotating
       </Button>
-    </>
+    </div>
   );
 };

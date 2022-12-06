@@ -2,11 +2,8 @@ import { useState } from 'react';
 
 import axios from 'axios';
 
-import { Col, Row } from 'react-bootstrap';
-
 import InputSentenceForm from './InputSentenceForm';
 import SentenceAnnotationPanel from './annotation-panel';
-import SessionHistoryPanel from './SessionHistoryPanel';
 import DatasetBrowserPanel from './dataset-browser-panel';
 
 import { POS_TAGS } from './settings';
@@ -125,7 +122,7 @@ const App = () => {
   // Submits the annotated sentence to session.
   const onSubmitClick = (e) => {
     const submitRequest = async () => {
-      await axios.post('/session-sentences/save/', {
+      await axios.post('/save-sentence/', {
         ...sentenceInput,
         annotated: tokens.reduce((annotated, token) =>
           annotated + `<${token.tag} ${token.token}> `, "").trim()
@@ -139,15 +136,8 @@ const App = () => {
     <>
       <DatasetBrowserPanel editCallback={initializeAnnotationEdit}
         className="mb-3" />
-      <Row className="border-top pt-3 mb-3">
-        <Col sm={6}>
-          <InputSentenceForm initializeCallback={initializeWithSentence}
-            disabled={isAnnotating} />
-        </Col>
-        <Col sm={6}>
-          <SessionHistoryPanel />
-        </Col>
-      </Row>
+      <InputSentenceForm initializeCallback={initializeWithSentence}
+        disabled={isAnnotating} className="border-top pt-3 mb-3" />
       {isAnnotating ?
         <SentenceAnnotationPanel className="border-top pt-3"
           tokens={tokens} tagsSummary={tagsSummary}

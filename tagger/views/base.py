@@ -3,6 +3,10 @@ from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+
+import json
+import csv
 
 from nltk.tokenize import word_tokenize
 
@@ -33,6 +37,27 @@ def tokenize(request):
     return JsonResponse({'tokens': tokens})
 
 
+@csrf_exempt
+def save_sentence(request):
+    if request.method == "POST":
+        request_body = json.loads(request.body)
+        annotated_sentence = AnnotatedSentence(**request_body)
+        annotated_sentence.save()
+        return HttpResponse(status=204)
+    
+    return HttpResponse(status=400)
+
+
+@csrf_exempt
+def delete_sentence(request, id):
+    if request.method == "DELETE":
+        annotated_sentence = AnnotatedSentence.objects.get(pk=id)
+        annotated_sentence.delete()
+        return HttpResponse(status=200)
+    
+    return HttpResponse(status=400)
+
+
 def fetch_annotated_sentence(request, id):
     annotated_sentence = AnnotatedSentence.objects.get(pk=id).annotated
 
@@ -46,6 +71,22 @@ def fetch_annotated_sentence(request, id):
                          [{'tag': annotated_token[0],
                            'token': annotated_token[1]}
                           for annotated_token in annotation_as_list]})
+
+
+def dataset_csv(request):
+    response = HttpResponse(
+        content_type='text/csv',
+        headers={'Content-Disposition': 'attachment; filename="dataset.csv"'})
+    csv_writer = csv.writer(response)
+    csv_writer.writerow(['id', 'language', 'raw', 'annotated'])
+
+    annotated_sentences = AnnotatedSentence.objects.all()
+    for annotated_sentence in annotated_sentences:
+        csv_writer.writerow([annotated_sentence.id,
+                             annotated_sentence.language,
+                             annotated_sentence.raw,
+                             annotated_sentence.annotated])
+    return response
 
 
 def online_model(request):

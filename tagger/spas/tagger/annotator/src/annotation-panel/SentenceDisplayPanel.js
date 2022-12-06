@@ -1,6 +1,6 @@
 import { Badge, Form } from 'react-bootstrap';
 
-const AnnotatedTokenBadge = (props) => {
+export const AnnotatedTokenBadge = (props) => {
   return (
     <Badge bg={`pos-${props.tag.toLowerCase()}`}
       className={props.className}

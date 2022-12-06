@@ -2,8 +2,11 @@ import { useState } from 'react';
 
 import axios from 'axios';
 
+import { Col, Row } from 'react-bootstrap';
+
 import InputSentenceForm from './InputSentenceForm';
 import SentenceAnnotationPanel from './annotation-panel';
+import SessionHistoryPanel from './SessionHistoryPanel';
 
 import { POS_TAGS } from './settings';
 
@@ -101,7 +104,7 @@ const App = () => {
   // Submits the annotated sentence to session.
   const onSubmitClick = (e) => {
     const submitRequest = async () => {
-      await axios.post('/save-sentence/', {
+      await axios.post('/session-sentences/save/', {
         ...sentenceInput,
         annotated: tokens.reduce((annotated, token) =>
           annotated + `<${token.tag} ${token.token}> `, "").trim()
@@ -113,9 +116,15 @@ const App = () => {
 
   return (
     <>
-      <InputSentenceForm className="border-top pt-3 mb-3"
-        initializeCallback={initializeWithSentence}
-        disabled={isAnnotating} />
+      <Row className="border-top pt-3 mb-3">
+        <Col sm={6}>
+          <InputSentenceForm initializeCallback={initializeWithSentence}
+            disabled={isAnnotating} />
+        </Col>
+        <Col sm={6}>
+          <SessionHistoryPanel />
+        </Col>
+      </Row>
       {isAnnotating ?
         <SentenceAnnotationPanel className="border-top pt-3"
           tokens={tokens} tagsSummary={tagsSummary}

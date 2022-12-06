@@ -7,6 +7,7 @@ import { Col, Row } from 'react-bootstrap';
 import InputSentenceForm from './InputSentenceForm';
 import SentenceAnnotationPanel from './annotation-panel';
 import SessionHistoryPanel from './SessionHistoryPanel';
+import DatasetBrowserPanel from './dataset-browser-panel';
 
 import { POS_TAGS } from './settings';
 
@@ -47,6 +48,26 @@ const App = () => {
     };
 
     tokenizeThenInitialize();
+  };
+
+  // Initializes to annotation mode (edit)
+  const initializeAnnotationEdit = (sentenceId) => {
+    const fetchSentenceInformation = async () => {
+      // Fetch sentence information
+      const sentenceInfoResponse =
+        await axios.get(`/api/sentences/${sentenceId}/`);
+      const sentenceInfo = sentenceInfoResponse.data;
+      setSentenceInput({id: sentenceInfo.id, language: sentenceInfo.language,
+                        raw: sentenceInfo.raw });
+      // Fetch annotation (on annotated-sentence endpoint)
+      const annotationResponse =
+        await axios.get(`/annotated-sentence/${sentenceId}/`);
+      setTokens(annotationResponse.data.annotation);
+      setAnnotating(true);
+      setAnnotateIndex(0);
+    };
+
+    fetchSentenceInformation();
   };
 
   // Annotate the token at annotateIndex with the given tag.
@@ -116,6 +137,8 @@ const App = () => {
 
   return (
     <>
+      <DatasetBrowserPanel editCallback={initializeAnnotationEdit}
+        className="mb-3" />
       <Row className="border-top pt-3 mb-3">
         <Col sm={6}>
           <InputSentenceForm initializeCallback={initializeWithSentence}

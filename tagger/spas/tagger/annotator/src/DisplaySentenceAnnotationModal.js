@@ -15,7 +15,7 @@ export default (props) => {
         <p>{props.raw}</p>
         <h2 className="h5">Annotation</h2>
         {props.annotation?.map(({tag, token}) =>
-          <AnnotatedTokenBadge tag={tag} token={token}
+          <AnnotatedTokenBadge key={tag + token} tag={tag} token={token}
             className="me-1 mb-1"/> )}
       </Modal.Body>
       <Modal.Footer>

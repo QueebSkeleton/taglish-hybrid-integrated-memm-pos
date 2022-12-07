@@ -1,1 +1,154 @@
 {% extends "tagger/base.html" %}
+{% load static %}
+{% block content %}
+  <h1 class="h3">taglish part-of-speech tagger</h1>
+  <p>
+    This website contains tools for working with a part-of-speech tagger
+    for the <b>Taglish code-switched language</b>. Taglish is considered
+    a low-resource language in the field of Natural Language Processing,
+    yet data is present everywhere in Filipino interactions, especially
+    in popular social media platforms such as Facebook and Twitter.
+  </p>
+  <p>
+    The sole motivation behind this project is to propagate the language
+    further in Natural Language endeavors and provide resources necessary
+    to understanding and working with Taglish.
+  </p>
+  <h2 class="h4">Builds on the Universal Dependencies (UD) Project</h2>
+  <p>
+    The Universal Dependencies (UD) Project provides a framework
+    for consistent annotation of grammar (including parts-of-speech, of course)
+    regardless of what language you are working with. You can go visit the
+    project's website through this
+    <a href="https://universaldependencies.org/" target="_blank">link</a>.
+  </p>
+  <p>
+    The project makes use of the <b>Universal POS Tags</b>.
+    This decision is based on the fact that this tagset works on both
+    English and Tagalog, therefore it would be easy to apply in a
+    code-switching setting between the two languages. You can visit this
+    <a href="https://universaldependencies.org/u/pos/index.html">link</a>.
+  </p>
+  <hr/>
+  <div class="row">
+    <div class="col-sm-6">
+      <img src="{% static "tagger/img/banner-1.png" %}"
+           class="d-block w-100"
+           alt="Annotator banner"/>
+    </div>
+    <div class="col-sm-6">
+      <h2 class="h4">How to use the online model</h2>
+      <p>
+        This web application contains a trained model which accepts a
+        sentence and gives its predictions on its token's parts-of-speech.
+      </p>
+      <ol>
+        <li>Input your sentence in the form.</li>
+        <li>Click on the "Predict Tags" button.</li>
+        <li>
+          View the results (token are "badges" with colors).
+          There is also a summary beside the annotation.
+        </li>
+        <li>
+          <b>(Optional)</b> If you are logged in, you can add it
+          to the website dataset by clickin on the
+          "Add to Dataset" button.
+        </li>
+      </ol>
+      <p>
+        Retraining facilities are provided for this online model,
+        which can be accessed by account holders.
+      </p>
+    </div>
+    <hr/>
+    <div class="row">
+      <div class="col-sm-6">
+        <h2 class="h4">Website facilities (dataset, retraining)</h2>
+        <p>
+          The web application has facilities for storing the whole taglish
+          dataset (and thus adding more sentences through an annotation tool).
+        </p>
+        <p>
+          <b>You must be authenticated as a contributor</b> to access the "Annotator"
+          page, which holds these facilities.
+        </p>
+        <h3 class="h5">Browsing the dataset</h3>
+        <p>
+          The dataset can be accessed with a table that is paginated.
+          You can also search the dataset by identifier (ID column).
+        </p>
+        <p>
+          View a sentence's annotation by clicking on its eye button.
+          A popup modal will show up.
+        </p>
+        <h3 class="h5">Annotating a sentence</h3>
+        <ol>
+          <li>
+            Either edit a sentence from the dataset or fill-up the
+            sentence information form, then click the
+            "Start Annotating" button.
+          </li>
+          <li>Annotate each individual token with the tools provided.</li>
+          <li>
+            <b>(OPTIONAL)</b> To add a token, go to the "Add a Token"
+            panel, type in your new token, then click on either of the
+            insert buttons.
+          </li>
+          <li>
+            <b>(OPTIONAL)</b> To edit the current token, go to the
+            "Edit Current Token" panel then change accordingly. You can
+            even delete this token. <b>NOTE</b> that you cannot delete
+            a token if it's the last one in the sentence being annotated.
+          </li>
+          <li>
+            Click on the "Save Annotation" button to submit it to the
+            dataset.
+          </li>
+        </ol>
+      </div>
+      <div class="col-sm-6">
+        <!-- Preview Images Carousel -->
+        <div id="facilitiesCarousel"
+             class="carousel slide"
+             data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="{% static "tagger/img/banner-2.png" %}"
+                   class="d-block w-100"
+                   alt="Annotator banner"/>
+            </div>
+            <div class="carousel-item">
+              <img src="{% static "tagger/img/view-annotation.png" %}"
+                   class="d-block w-100"
+                   alt="View annotation"/>
+            </div>
+            <div class="carousel-item">
+              <img src="{% static "tagger/img/annotate-1.png" %}"
+                   class="d-block w-100"
+                   alt="Annotation first image"/>
+            </div>
+            <div class="carousel-item">
+              <img src="{% static "tagger/img/annotate-2.png" %}"
+                   class="d-block w-100"
+                   alt="Annotation first image"/>
+            </div>
+          </div>
+          <button class="carousel-control-prev"
+                  type="button"
+                  data-bs-target="#facilitiesCarousel"
+                  data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next"
+                  type="button"
+                  data-bs-target="#facilitiesCarousel"
+                  data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

@@ -21,8 +21,6 @@ urlpatterns = [
     path("online-model/", views.online_model, name="online_model"),
     path("contact/", views.contact, name="contact"),
     path("dataset-csv/", views.dataset_csv, name="dataset_csv"),
-    path("save-sentence/", views.save_sentence, name="save_sentence"),
-    path("delete-sentence/<str:id>/", views.delete_sentence, name="delete_sentence"),
     path("annotated-sentence/<str:id>/", views.fetch_annotated_sentence,
          name="fetch_annotated_sentence"),
     # Auth

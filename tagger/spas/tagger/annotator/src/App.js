@@ -8,13 +8,29 @@ import DatasetBrowserPanel from './dataset-browser-panel';
 
 import { POS_TAGS } from './settings';
 
+const initializeTagsSummary = (annotation) => {
+  let tagsSummary = {};
+  for(const {tag} of POS_TAGS)
+    tagsSummary[tag] = 0;
+  
+  // Compute initial summary values with the given annotation
+  for(const {token, tag} of annotation)
+    if(tag)
+      tagsSummary[tag] += 1;
+  
+  return tagsSummary;
+};
+
 const App = () => {
   // Input details
   const [sentenceInput, setSentenceInput] = useState({
-    id: null, raw: null, language: null
+    raw: null, language: null
   });
   // Flag if the form should display the annotation form or not.
   const [isAnnotating, setAnnotating] = useState(false);
+  // Flag if this is on add or edit mode.
+  // This determines how to hit the API when saving.
+  const [isEdit, setEdit] = useState(false);
   // Current tokens with their tags.
   const [tokens, setTokens] = useState(null);
   // Summary of sentence currently being annotated
@@ -33,15 +49,12 @@ const App = () => {
       const response = await axios.get(
         `/tokenize/`, { params: { sentence: sentenceInput.raw } });
       // TODO: Handle HTTP error codes!
-      setTokens(response.data.tokens.map((token) => ({ token, tag: null })));
+      const tokens = response.data.tokens.map((token) => ({ token, tag: null }));
+      setTokens(tokens);
       setAnnotating(true);
       setAnnotateIndex(0);
-
-      // Initialize tags summary
-      let tagsSummary = {};
-      for (const { tag, verbose } of POS_TAGS)
-        tagsSummary[tag] = 0;
-      setTagsSummary(tagsSummary);
+      setEdit(false);
+      setTagsSummary(initializeTagsSummary(tokens));
     };
 
     tokenizeThenInitialize();
@@ -59,9 +72,12 @@ const App = () => {
       // Fetch annotation (on annotated-sentence endpoint)
       const annotationResponse =
         await axios.get(`/annotated-sentence/${sentenceId}/`);
-      setTokens(annotationResponse.data.annotation);
+      let tokens = annotationResponse.data.annotation;
+      setTokens(tokens);
       setAnnotating(true);
       setAnnotateIndex(0);
+      setEdit(true);
+      setTagsSummary(initializeTagsSummary(tokens))
     };
 
     fetchSentenceInformation();
@@ -122,11 +138,18 @@ const App = () => {
   // Submits the annotated sentence to session.
   const onSubmitClick = (e) => {
     const submitRequest = async () => {
-      await axios.post('/save-sentence/', {
-        ...sentenceInput,
-        annotated: tokens.reduce((annotated, token) =>
-          annotated + `<${token.tag} ${token.token}> `, "").trim()
-      });
+      // If isUpdate is set to false, perform POST
+      if(!isEdit)
+        await axios.post('/api/sentences/', {
+          ...sentenceInput,
+          annotated: tokens.reduce((annotated, token) =>
+            annotated + `<${token.tag} ${token.token}> `, "").trim()
+        });
+      else
+        await axios.patch(`/api/sentences/${sentenceInput.id}/`, {
+          annotated: tokens.reduce((annotated, token) =>
+            annotated + `<${token.tag} ${token.token}> `, "").trim()
+        });
     };
 
     submitRequest().then(() => { window.location.reload(); });

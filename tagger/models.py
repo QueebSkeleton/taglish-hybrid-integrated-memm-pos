@@ -4,13 +4,13 @@ from django.contrib.auth import models as auth_models
 
 
 class AnnotatedSentence(models.Model):
-    id = models.CharField(primary_key=True, editable=False, max_length=20)
     language = models.CharField(max_length=10,
                                 choices=(('ENG', 'English'),
                                          ('FIL', 'Tagalog'),
                                          ('TAGLISH', 'Taglish')))
     raw = models.TextField()
     annotated = models.TextField()
+    extra_data = models.JSONField(null=True, blank=True)
 
 
 class AnnotationChangeLog(models.Model):

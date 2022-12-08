@@ -1,0 +1,1 @@
+[{"model": "tagger.annotatedsentence", "pk": 213126, "fields": {"language": "TAGLISH", "raw": "Hello world!", "annotated": "<ADJ Hello> <ADJ world> <ADJ !>", "extra_data": {"tweet_id": 123}}}]

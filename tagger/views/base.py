@@ -37,27 +37,6 @@ def tokenize(request):
     return JsonResponse({'tokens': tokens})
 
 
-@csrf_exempt
-def save_sentence(request):
-    if request.method == "POST":
-        request_body = json.loads(request.body)
-        annotated_sentence = AnnotatedSentence(**request_body)
-        annotated_sentence.save()
-        return HttpResponse(status=204)
-    
-    return HttpResponse(status=400)
-
-
-@csrf_exempt
-def delete_sentence(request, id):
-    if request.method == "DELETE":
-        annotated_sentence = AnnotatedSentence.objects.get(pk=id)
-        annotated_sentence.delete()
-        return HttpResponse(status=200)
-    
-    return HttpResponse(status=400)
-
-
 def fetch_annotated_sentence(request, id):
     annotated_sentence = AnnotatedSentence.objects.get(pk=id).annotated
 

@@ -40,7 +40,7 @@ export default (props) => {
     return () => {
       if(confirm(`Delete annotation with ID: ${sentences[index].id}?`)) {
         const deleteAnnotation = async () => {
-          await axios.delete(`/delete-sentence/${sentences[index].id}`);
+          await axios.delete(`/api/sentences/${sentences[index].id}/`);
           setRefreshCounter(refreshCounter + 1);
         };
         deleteAnnotation();

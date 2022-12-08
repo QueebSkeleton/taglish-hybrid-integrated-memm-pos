@@ -130,4 +130,4 @@ dmypy.json
 
 # Project-specific
 /static/
-/tagger/static/tagger/js/spa/
+/tagger/static/tagger/js/

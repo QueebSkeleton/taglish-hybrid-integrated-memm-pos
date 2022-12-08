@@ -12,3 +12,10 @@ class AnnotatedSentenceViewSet(viewsets.ModelViewSet):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     queryset = AnnotatedSentence.objects.all()
     serializer_class = AnnotatedSentenceSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        q = self.request.query_params.get('q')
+        if q:
+            queryset = queryset.filter(id__icontains=q)
+        return queryset

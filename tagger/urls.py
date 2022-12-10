@@ -19,6 +19,8 @@ urlpatterns = [
     path("annotator/", views.annotator, name="annotator"),
     path("tokenize/", views.tokenize, name="tokenize"),
     path("online-model/", views.online_model, name="online_model"),
+    path("online-model/train/", views.train_online_model,
+         name="train_online_model"),
     path("contact/", views.contact, name="contact"),
     path("dataset-csv/", views.dataset_csv, name="dataset_csv"),
     path("annotated-sentence/<str:id>/", views.fetch_annotated_sentence,

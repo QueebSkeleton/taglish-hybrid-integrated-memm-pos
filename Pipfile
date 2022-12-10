@@ -11,6 +11,8 @@ django-compressor = "*"
 django-sass-processor = "*"
 django-widget-tweaks = "*"
 djangorestframework = "*"
+dill = "*"
+numpy = "*"
 
 [dev-packages]
 djlint = "*"

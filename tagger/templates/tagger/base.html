@@ -21,10 +21,10 @@
     {% block page_css %}
     {% endblock page_css %}
   </head>
-  <body>
-    <div class="container py-4">
+  <body >
+    <div class="w-auto h-100">
       {% include "tagger/include/navbar.html" %}
-      <main class="py-4">
+      <main class="container-fluid bg-light bg-gradient py-3" >
         {% block content %}
         {% endblock content %}
       </main>

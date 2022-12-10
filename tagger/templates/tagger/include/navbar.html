@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="taggerNavbar">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">taglish-post</a>
+    <a class="navbar-brand" href="#">Taglish-POST</a>
     <button class="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
@@ -28,7 +28,7 @@
           <a class="nav-link" href="{% url "tagger:online_model" %}">Online Model</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url "tagger:contact" %}">Contact</a>
+          <a class="nav-link" href="{% url "tagger:contact" %}">Contact Us</a>
         </li>
         {% if user.is_authenticated %}
           <li class="nav-item">

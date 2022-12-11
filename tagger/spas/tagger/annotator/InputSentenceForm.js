@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
 export default (props) => {
   const [language, setLanguage] = useState("TAGLISH");

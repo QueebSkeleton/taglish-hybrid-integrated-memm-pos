@@ -167,21 +167,23 @@ const App = () => {
       });
     };
 
-    validateRequest().then(() => {
-      setRefreshDatasetCounter(refreshDatasetCounter + 1); 
-      setAnnotating(false);
-      setTimeout(() => {
-        setAlertProps({
-          show: true,
-          variant: "success",
-          heading: "Success.",
-          text: `Sentence with ID ${sentenceInput['id']} has been validated.`
-        });
-        headerRef.current.scrollIntoView({
-          behavior: 'smooth'
-        });
-      }, 100);
-    });
+    if(confirm('Validate this annotation?')) {
+      validateRequest().then(() => {
+        setRefreshDatasetCounter(refreshDatasetCounter + 1); 
+        setAnnotating(false);
+        setTimeout(() => {
+          setAlertProps({
+            show: true,
+            variant: "success",
+            heading: "Success.",
+            text: `Sentence with ID ${sentenceInput['id']} has been validated.`
+          });
+          headerRef.current.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }, 100);
+      });
+    }
   };
 
   // Submits the annotated sentence to session.
@@ -216,21 +218,23 @@ const App = () => {
       }
     };
 
-    submitRequest().then((id) => {
-      setRefreshDatasetCounter(refreshDatasetCounter + 1); 
-      setAnnotating(false);
-      setTimeout(() => {
-        setAlertProps({
-          show: true,
-          variant: "success",
-          heading: "Success.",
-          text: `Sentence with ID ${id} been ${isEdit ? 'updated' : 'created'}.`
-        });
-        headerRef.current.scrollIntoView({
-          behavior: 'smooth'
-        });
-      }, 100);
-    });
+    if(confirm('Validate this annotation?')) { 
+      submitRequest().then((id) => {
+        setRefreshDatasetCounter(refreshDatasetCounter + 1); 
+        setAnnotating(false);
+        setTimeout(() => {
+          setAlertProps({
+            show: true,
+            variant: "success",
+            heading: "Success.",
+            text: `Sentence with ID ${id} been ${isEdit ? 'updated' : 'created'}.`
+          });
+          headerRef.current.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }, 100);
+      });
+    }
   };
 
   return (
@@ -240,7 +244,7 @@ const App = () => {
         <Alert variant={alertProps.variant} onClose={() => setAlertProps({show: false})}
           dismissible>
           <Alert.Heading>{alertProps.heading}</Alert.Heading>
-          <p>{alertProps.text}</p>
+          <p className="mb-0">{alertProps.text}</p>
         </Alert> : null}
       <DatasetBrowserPanel editCallback={initializeAnnotationEdit}
         refreshCounter={refreshDatasetCounter} className="mb-3" />

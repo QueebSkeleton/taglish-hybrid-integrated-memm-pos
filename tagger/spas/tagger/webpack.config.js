@@ -5,10 +5,12 @@ const CleanTerminalPlugin = require('clean-terminal-webpack-plugin');
 module.exports = {
     mode: "development",
     devtool: "inline-source-map",
-    entry: "./src/index.js",
+    entry: {
+        annotator: "./annotator/index.js",
+        online_model: "./online_model/index.js"
+    },
     output: {
-        path: path.resolve("../../../static/tagger/js"),
-        filename: "annotator.js"
+        path: path.resolve("../../static/tagger/js"),
     },
     module: {
         rules: [

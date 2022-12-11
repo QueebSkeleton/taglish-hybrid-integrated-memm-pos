@@ -1,86 +1,122 @@
 {% extends "tagger/base.html" %}
 {% load static %}
 {% block content %}
-<div class="row g-4">
-  <div class="col-sm-6 col-md-3 ">
-    <div class="card">
-      <img src="{% static "tagger/img/Nathan-picture.jpg" %}" class="card-img-top"/>
-      <div class="card-body">
-        <p class="card-text">
-        <h2 class="h4">Nathan Ralph V. Punay</h2>
-        <p>Undergraduate Researcher</p>
-        <hr />
-        <p>
-          <b>Email</b>:
-          <a href="mailto:nralph407@gmail.com">nralph407@gmail.com</a>
-        </p>
-        <p>
-          <b>Github</b>:
-          <a href="https://github.com/nathanralph407">nathanralph407</a>
-        </p>
-        <p>
-          <b>Facebook/Messenger</b>:
-          <a href="https://m.me/garglingspaghetti">Nathan Ralph</a>
-        </p>
-        </p>
+  <div class="mb-3">
+    <h1 class="h3">Contact</h1>
+    <h2 class="h5">Mailing</h2>
+    <p>
+      For questions about the taglish part-of-speech tagger
+      website, please go check the
+      <a href="{% url "tagger:about" %}">about page</a>. If
+      you want to report bugs or want to request a feature,
+      refer to the researcher contacts shown below.
+    </p>
+    <h2 class="h5">Issue Tracking</h2>
+    <p>
+      The website is open-source and is hosted in this
+      <a href="#">Github Repository</a> page. You can also
+      report bugs or request features here by raising a
+      <b>Github Issue</b>.
+    </p>
+  </div>
+  <hr/>
+  <h2 class="h5 mb-3">Developers</h2>
+  <div class="row g-4">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-2">
+              <img src="{% static "tagger/img/Nathan-picture.jpg" %}"
+                alt="Nathan profile picture" class="img-fluid"/>
+            </div>
+            <div class="col-10">
+              <h2 class="h4">Nathan Ralph V. Punay</h2>
+              <p>CS student, Polytechnic University of the Philippines</p>
+              <p>
+                <b>Email</b>:
+                <a href="mailto:nralph407@gmail.com">nralph407@gmail.com</a>
+              </p>
+              <p>
+                <b>Github</b>:
+                <a href="https://github.com/nathanralph407">nathanralph407</a>
+              </p>
+              <p>
+                <b>Facebook/Messenger</b>:
+                <a href="https://m.me/garglingspaghetti">Nathan Ralph</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-2">
+              <img src="{% static "tagger/img/Rian-picture.png" %}"
+                alt="Rian profile picture" class="img-fluid"/>
+            </div>
+            <div class="col-10">
+              <h2 class="h4">Rian Carlo Reyes</h2>
+              <p>CS student, Polytechnic University of the Philippines</p>
+              <p>
+                <b>Email</b>:
+                <a href="mailto:reyesriancarlo@gmail.com">reyesriancarlo@gmail.com</a>
+              </p>
+              <p>
+                <b>Github</b>:
+                <a href="https://github.com/queebskeleton">queebskeleton</a>
+              </p>
+              <p>
+                <b>Facebook/Messenger</b>:
+                <a href="https://www.facebook.com/queebskeleton">Rian Carlo Reyes</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-2">
+              <img src="{% static "tagger/img/Psalm-picture.jpg" %}"
+                alt="Psalm profile picture" class="img-fluid"/>
+            </div>
+            <div class="col-10">
+              <h2 class="h4">Psalm David Eisma</h2>
+              <p>CS student, Polytechnic University of the Philippines</p>
+              <p>
+                <b>Email</b>:
+                <a href="mailto:pdeisma@gmail.com">pdeisma@gmail.com</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-2">
+              <img src="https://via.placeholder.com/1200x1500" 
+                alt="Yee profile picture" class="img-fluid"/>
+            </div>
+            <div class="col-10">
+              <h2 class="h4">John Joseph Yee</h2>
+              <p>CS student, Polytechnic University of the Philippines</p>
+              <p>
+                <b>Email</b>:
+                <a href="mailto:mail.johnjosephyee@gmail.com">mail.johnjosephyee@gmail.com</a>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-sm-6 col-md-3">
-    <div class="card">
-      <img src="{% static "tagger/img/Rian-picture.png" %}" class="card-img-top"/>
-      <div class="card-body">
-        <p class="card-text">
-        <h2 class="h4">Rian Carlo Reyes</h2>
-        <p>Undergraduate Researcher</p>
-        <hr />
-        <p>
-          <b>Email</b>:
-          <a href="mailto:reyesriancarlo@gmail.com">reyesriancarlo@gmail.com</a>
-        </p>
-        <p>
-          <b>Github</b>:
-          <a href="https://github.com/queebskeleton">queebskeleton</a>
-        </p>
-        <p>
-          <b>Facebook/Messenger</b>:
-          <a href="https://www.facebook.com/queebskeleton">Rian Carlo Reyes</a>
-        </p>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6 col-md-3">
-    <div class="card">
-      <img src="{% static "tagger/img/Psalm-picture.jpg" %}" class="card-img-top"/>
-      <div class="card-body">
-        <p class="card-text">
-        <h2 class="h4">Psalm David Eisma</h2>
-        <p>Undergraduate Researcher</p>
-        <hr />
-        <p>
-          <b>Email</b>:
-          <a href="mailto:pdeisma@gmail.com">pdeisma@gmail.com</a>
-        </p>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6 col-md-3">
-    <div class="card">
-      <img src="https://via.placeholder.com/1200x1500" class="card-img-top"/>
-      <div class="card-body">
-        <p class="card-text">
-        <h2 class="h4">John Joseph Yee</h2>
-        <p>Undergraduate Researcher</p>
-        <hr />
-        <p>
-          <b>Email</b>:
-          <a href="mailto:mail.johnjosephyee@gmail.com">mail.johnjosephyee@gmail.com</a>
-        </p>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
 {% endblock content %}

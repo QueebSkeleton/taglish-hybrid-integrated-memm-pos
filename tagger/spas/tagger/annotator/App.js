@@ -22,6 +22,8 @@ const initializeTagsSummary = (annotation) => {
   return tagsSummary;
 };
 
+export { initializeTagsSummary };
+
 const App = () => {
   // Input details
   const [sentenceInput, setSentenceInput] = useState({

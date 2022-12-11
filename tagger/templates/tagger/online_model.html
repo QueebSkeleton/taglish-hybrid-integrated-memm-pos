@@ -1,81 +1,9 @@
 {% extends "tagger/base.html" %}
-
+{% load static %}
 {% block content %}
-  <!-- Input Sentence Area -->
-  <div class="mb-3">
-    <h1 class="h5">Input sentence</h1>
-    <textarea name="sentence" rows="3" class="form-control mb-2"></textarea>
-    <button type="button" class="btn btn-sm btn-outline-primary">
-      <i class="fa-solid fa-marker"></i>
-      Predict Tags
-    </button>
-  </div>
-  <!-- Output Area -->
-  <!-- Annotation Area -->
-  <div class="border-top pt-3">
-    <div class="row">
-      <div class="col-md-8">
-        <h1 class="h5">Your sentence</h1>
-        <div class="mb-3">
-          <!-- Current words -->
-          <span class="badge bg-pos-adj fs-6 fw-normal me-1 mb-2 text-white-75">Adjective | ADJ </span>
-          <span class="badge bg-pos-adv fs-6 fw-normal me-1 mb-2 text">Adverb | ADV</span>
-          <span class="badge bg-pos-intj fs-6 fw-normal me-1 mb-2 text-secondary">Interjection | INTJ</span>
-          <span class="badge bg-pos-noun fs-6 fw-normal me-1 mb-2">Noun | NOUN</span>
-          <span class="badge bg-pos-propn fs-6 fw-normal me-1 mb-2">Proper Noun | PROPN</span>
-          <span class="badge bg-pos-verb fs-6 fw-normal me-1 mb-2 text-white-75">Verb | VERB</span>
-          <span class="badge bg-pos-adp fs-6 fw-normal me-1 mb-2">Adverb | ADP</span>
-          <span class="badge bg-pos-aux fs-6 fw-normal me-1 mb-2">Auxiliary | AUX</span>
-          <span class="badge bg-pos-cconj fs-6 fw-normal me-1 mb-2">Coordinating Conjunction | CCONJ</span>
-          <span class="badge bg-pos-det fs-6 fw-normal me-1 mb-2">Determiner | DET</span>
-          <span class="badge bg-pos-num fs-6 fw-normal me-1 mb-2">Number | NUM</span>
-          <span class="badge bg-pos-part fs-6 fw-normal me-1 mb-2">Particle | PART</span>
-          <span class="badge bg-pos-pron fs-6 fw-normal me-1 mb-2">Pronoun | PRON</span>
-          <span class="badge bg-pos-sconj fs-6 fw-normal me-1 mb-2">Subordinating Conjunction | SCONJ</span>
-          <span class="badge bg-pos-punct fs-6 fw-normal me-1 mb-2">Punctuation | PUNCT</span>
-          <span class="badge bg-pos-sym fs-6 fw-normal me-1 mb-2">Symbol | SYM</span>
-          <span class="badge bg-pos-x fs-6 fw-normal me-1 mb-2">Other | X</span>
-        </div>
-        <div class="py-2 border-top">
-          <button type="button" class="btn btn-sm btn-outline-success" disabled>
-            <i class="fa-solid fa-hand-point-up"></i>
-            Submit to session
-          </button>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <h1 class="h5">Quick summary</h1>
-        <div class="table-responsive">
-          <table class="table table-sm table-striped">
-            <tbody>
-              <!-- Overall Summary -->
-              <tr><th colspan="2" class="text-center">Overall</th></tr>
-              <tr><td># of tokens</td><td>5</td></tr>
-              <!-- Per Tag Summary -->
-              <tr><th colspan="2" class="text-center">Per Tag (Open class)</th></tr>
-              <tr><td>ADJ</td><td>0</td></tr>
-              <tr><td>ADV</td><td>0</td></tr>
-              <tr><td>INTJ</td><td>0</td></tr>
-              <tr><td>NOUN</td><td>0</td></tr>
-              <tr><td>PROPN</td><td>0</td></tr>
-              <tr><td>VERB</td><td>0</td></tr>
-              <tr><th colspan="2" class="text-center">Per Tag (Closed class)</th></tr>
-              <tr><td>ADP</td><td>0</td></tr>
-              <tr><td>AUX</td><td>0</td></tr>
-              <tr><td>CCONJ</td><td>0</td></tr>
-              <tr><td>DET</td><td>0</td></tr>
-              <tr><td>NUM</td><td>0</td></tr>
-              <tr><td>PART</td><td>0</td></tr>
-              <tr><td>PRON</td><td>0</td></tr>
-              <tr><td>SCONJ</td><td>0</td></tr>
-              <tr><th colspan="2" class="text-center">Per Tag (Other)</th></tr>
-              <tr><td>PUNCT</td><td>0</td></tr>
-              <tr><td>SYM</td><td>0</td></tr>
-              <tr><td>X</td><td>0</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div id="onlinemodel-app-root"></div>
 {% endblock content %}
+
+{% block page_js %}
+  <script src="{% static "tagger/js/online_model.js" %}"></script>
+{% endblock page_js %}

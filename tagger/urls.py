@@ -19,6 +19,8 @@ urlpatterns = [
     path("annotator/", views.annotator, name="annotator"),
     path("tokenize/", views.tokenize, name="tokenize"),
     path("online-model/", views.online_model, name="online_model"),
+    path("online-model/annotate/", views.online_model_annotate,
+         name="online_model_annotate"),
     path("online-model/train/", views.train_online_model,
          name="train_online_model"),
     path("contact/", views.contact, name="contact"),

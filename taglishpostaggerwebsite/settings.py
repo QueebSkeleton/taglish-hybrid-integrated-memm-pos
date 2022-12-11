@@ -12,7 +12,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 
+from dotenv import load_dotenv
+import os
+
 from django.urls import reverse_lazy
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -138,3 +143,5 @@ REST_FRAMEWORK = {
 # Tagger
 
 TAGGER_LOGIN_URL = reverse_lazy("tagger:login")
+
+TAGGER_MEGAM_LOCATION = os.environ.get('MEGAM_INSTALLATION_LOCATION', '/usr/bin/megam')

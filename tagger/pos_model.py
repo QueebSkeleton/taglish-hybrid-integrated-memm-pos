@@ -2,6 +2,8 @@ from nltk import TaggerI, FreqDist, untag, config_megam
 from nltk.tag.hmm import HiddenMarkovModelTagger
 from nltk.classify.maxent import MaxentClassifier
 
+from django.conf import settings
+
 import numpy as np
 
 import re
@@ -9,10 +11,6 @@ import re
 from collections import defaultdict
 
 from copy import copy
-
-
-PATH_TO_MEGAM_EXECUTABLE = "/usr/bin/megam"
-config_megam(PATH_TO_MEGAM_EXECUTABLE)
 
 
 class MaxentMarkovPosTagger(TaggerI):
@@ -31,6 +29,13 @@ class MaxentMarkovPosTagger(TaggerI):
 
     def train(self, tagged_sentences, maxent_algorithm='megam',
               word_count_cutoff=2, feature_count_cutoff=2, **cutoffs):
+
+        # Config NLTK with the megam installation, else fallback to GIS
+        try:
+            config_megam(settings.TAGGER_MEGAM_LOCATION)
+        except LookupError:
+            maxent_algorithm = 'IIS'
+
         self.word_freqdist = self.calculate_words_freqdist(tagged_sentences)
         self.word_cutoff = word_count_cutoff
         self.feature_cutoff = feature_count_cutoff

@@ -13,6 +13,7 @@ django-widget-tweaks = "*"
 djangorestframework = "*"
 dill = "*"
 numpy = "*"
+python-dotenv = "*"
 
 [dev-packages]
 djlint = "*"

@@ -1,3 +1,3 @@
-from .api_viewsets import *
+from .api_views import *
 from .base import *
 from .trainer import *

@@ -45,5 +45,9 @@ urlpatterns = [
              template_name=f"{app_name}/password_change_done.html"),
          name="password_change_done"),
     # API
+    path("api/current-user/", views.current_user,
+         name="current-user"),
+    path("api/changelogs/", views.save_changelog,
+         name="save_changelog"),
     path("api/", include(router.urls)),
 ]

@@ -39,7 +39,12 @@ export default (props) => {
           </Col>
         </Row>
         <div className="border-top pt-3">
-          <Button size="sm" variant="outline-primary"
+          {props.isEdit ?
+            <Button size="sm" variant="outline-primary" className="me-2 mb-2"
+              onClick={props.validateCallback} disabled={props.canSubmit}>
+              <i className="fa-solid fa-check"></i> Validate
+            </Button> : null}
+          <Button size="sm" variant="outline-primary" className="me-2 mb-2"
             onClick={props.submitCallback}
             disabled={!props.canSubmit}>
             <i className="fa-solid fa-hand-point-up"></i> Save annotation

@@ -10,6 +10,7 @@ import DisplaySentenceAnnotationModal from "../DisplaySentenceAnnotationModal";
 export default (props) => {
   const [sentences, setSentences] = useState([]);
 
+  // Internal refresh
   const [refreshCounter, setRefreshCounter] = useState(0);
 
   const [showViewModal, setShowViewModal] = useState(false);
@@ -23,7 +24,7 @@ export default (props) => {
 
   const fetchData = async () => {
     const params = { page: currentPage };
-    if(search)
+    if (search)
       params.q = search;
     const response =
       await axios.get(`/api/sentences/`, { params });
@@ -64,7 +65,8 @@ export default (props) => {
 
   useEffect(() => {
     fetchData();
-  }, [search, currentPage, refreshCounter]);
+  }, [search, currentPage, refreshCounter, props.refreshCounter]);
+
 
   return (
     <div className={props.className}>
@@ -75,7 +77,7 @@ export default (props) => {
         <Col sm={6} md={4}>
           <InputGroup>
             <InputGroup.Text>
-              <i class="fa-solid fa-search"></i>
+              <i className="fa-solid fa-search"></i>
             </InputGroup.Text>
             <Form.Control type="text" size="sm" value={search}
               onChange={e => setSearch(e.target.value)}
@@ -93,11 +95,17 @@ export default (props) => {
           </tr>
         </thead>
         <tbody>
-          {sentences.map(({ id, language }, index) =>
-            <tr key={id}>
+          {sentences.map(({ id, language, annotationchangelog_set }, index) => {
+            const logsCount = annotationchangelog_set.length;
+            return (<tr key={id}>
               <td>{id}</td>
               <td>{language}</td>
-              <td>N/A</td>
+              <td>
+                {logsCount > 0
+                  ? annotationchangelog_set[logsCount - 1].by.email
+                  + " - " + annotationchangelog_set[logsCount - 1].description
+                  : "N/A"}
+              </td>
               <td>
                 <ButtonGroup size="sm">
                   <Button variant="outline-info" onClick={onViewClick(index)}>
@@ -113,7 +121,7 @@ export default (props) => {
                   </Button>
                 </ButtonGroup>
               </td>
-            </tr>)}
+            </tr>);})}
         </tbody>
       </Table>
       <Row>

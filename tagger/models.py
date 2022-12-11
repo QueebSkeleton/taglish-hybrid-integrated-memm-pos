@@ -19,3 +19,4 @@ class AnnotationChangeLog(models.Model):
     by = models.ForeignKey(null=True, to=auth_models.User,
                            on_delete=models.SET_NULL)
     changed_on = models.DateTimeField(auto_now_add=True)
+    description = models.TextField()

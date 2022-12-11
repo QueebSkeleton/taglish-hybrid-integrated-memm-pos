@@ -1,6 +1,14 @@
 @import 'base';
 
+.page {
+    min-height: 100vh;
+    position: relative;
+}
+
 #taggerFooter {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     text-align: center;
     font-size: 0.75rem;
 }

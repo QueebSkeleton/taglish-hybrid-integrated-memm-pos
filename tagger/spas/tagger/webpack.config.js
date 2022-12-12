@@ -7,7 +7,8 @@ module.exports = {
     devtool: "inline-source-map",
     entry: {
         annotator: "./annotator/index.js",
-        online_model: "./online_model/index.js"
+        online_model: "./online_model/index.js",
+        browse_dataset: "./browse_dataset/index.js"
     },
     output: {
         path: path.resolve("../../static/tagger/js"),

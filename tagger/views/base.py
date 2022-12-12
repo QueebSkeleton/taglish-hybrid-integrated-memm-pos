@@ -66,6 +66,10 @@ def dataset_csv(request):
     return response
 
 
+def browse_dataset(request):
+    return render(request, "tagger/browse_dataset.html", {})
+
+
 def online_model(request):
     return render(request, "tagger/online_model.html", {})
 

@@ -72,10 +72,6 @@ const App = (props) => {
             {annotatedTokens.map(({ tag, token }, index) =>
               <AnnotatedTokenBadge key={index} tag={tag} token={token} />)}
           </div>
-          <hr/>
-          <Button size="sm" variant="outline-primary" disabled>
-            <i class="fa-solid fa-pencil"></i> Save to website dataset
-          </Button>
         </Col>
         <Col sm={6}>
           <h1 className="h5">Annotation Summary</h1>

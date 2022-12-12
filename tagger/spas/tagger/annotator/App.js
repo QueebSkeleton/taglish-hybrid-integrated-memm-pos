@@ -67,6 +67,15 @@ const App = () => {
     setCanSubmit(false);
   };
 
+  const showAlert = (show, variant, heading, text) => {
+    setAlertProps({
+      show: show,
+      variant: variant,
+      heading: heading,
+      text: text
+    });
+  };
+
   // Initializes to annotation mode with the inputted sentence
   const initializeWithSentence = (sentenceInput) => {
     setSentenceInput(sentenceInput);
@@ -185,12 +194,8 @@ const App = () => {
         resetAnnotator();
         setRefreshDatasetCounter(refreshDatasetCounter + 1);
         setTimeout(() => {
-          setAlertProps({
-            show: true,
-            variant: "success",
-            heading: "Success.",
-            text: `Sentence with ID ${sentenceInput['id']} has been validated.`
-          });
+          showAlert(true, "success", "Success.",
+            `Sentence with ID ${sentenceInput['id']} been validated.`);
           headerRef.current.scrollIntoView({
             behavior: 'smooth'
           });
@@ -236,12 +241,8 @@ const App = () => {
         resetAnnotator();
         setRefreshDatasetCounter(refreshDatasetCounter + 1);
         setTimeout(() => {
-          setAlertProps({
-            show: true,
-            variant: "success",
-            heading: "Success.",
-            text: `Sentence with ID ${id} been ${isEdit ? 'updated' : 'created'}.`
-          });
+          showAlert(true, "success", "Success.",
+            `Sentence with ID ${id} been ${isEdit ? 'updated' : 'created'}.`);
           headerRef.current.scrollIntoView({
             behavior: 'smooth'
           });
@@ -260,7 +261,8 @@ const App = () => {
           <p className="mb-0">{alertProps.text}</p>
         </Alert> : null}
       <DatasetBrowserPanel editCallback={initializeAnnotationEdit}
-        refreshCounter={refreshDatasetCounter} className="mb-3" />
+        refreshCounter={refreshDatasetCounter}
+        showAlertCallback={showAlert} className="mb-3" />
       <InputSentenceForm initializeCallback={initializeWithSentence}
         disabled={isAnnotating} className="border-top pt-3 mb-3" />
       <span ref={annotationRef} />

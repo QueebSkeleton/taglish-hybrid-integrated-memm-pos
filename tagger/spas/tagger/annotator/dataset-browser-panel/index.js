@@ -54,7 +54,10 @@ export default (props) => {
           await axios.delete(`/api/sentences/${sentences[index].id}/`);
           setRefreshCounter(refreshCounter + 1);
         };
-        deleteAnnotation();
+        deleteAnnotation().then(() => {
+          props.showAlertCallback(true, 'success', 'Success.',
+            `Sentence with ID ${sentences[index].id} has been removed.`);
+        });
       }
     };
   };

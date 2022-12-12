@@ -56,6 +56,17 @@ const App = () => {
     text: null
   });
 
+  const resetAnnotator = () => {
+    setSentenceInput({
+      raw: null, language: null
+    });
+    setAnnotating(false);
+    setTokens(null);
+    setTagsSummary({});
+    setAnnotateIndex(-1);
+    setCanSubmit(false);
+  };
+
   // Initializes to annotation mode with the inputted sentence
   const initializeWithSentence = (sentenceInput) => {
     setSentenceInput(sentenceInput);
@@ -171,8 +182,8 @@ const App = () => {
 
     if(confirm('Validate this annotation?')) {
       validateRequest().then(() => {
-        setRefreshDatasetCounter(refreshDatasetCounter + 1); 
-        setAnnotating(false);
+        resetAnnotator();
+        setRefreshDatasetCounter(refreshDatasetCounter + 1);
         setTimeout(() => {
           setAlertProps({
             show: true,
@@ -220,10 +231,10 @@ const App = () => {
       }
     };
 
-    if(confirm('Validate this annotation?')) { 
+    if(confirm('Save this annotation?')) { 
       submitRequest().then((id) => {
-        setRefreshDatasetCounter(refreshDatasetCounter + 1); 
-        setAnnotating(false);
+        resetAnnotator();
+        setRefreshDatasetCounter(refreshDatasetCounter + 1);
         setTimeout(() => {
           setAlertProps({
             show: true,

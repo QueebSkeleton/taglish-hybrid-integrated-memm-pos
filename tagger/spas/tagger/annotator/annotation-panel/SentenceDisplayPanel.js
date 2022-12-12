@@ -37,7 +37,8 @@ export default (props) => {
           else
             return <span key={index} className={`me-1 mb-1
                 ${props.annotateIndex === index ?
-                'border-bottom border-primary border-2 pb-1' : null}`}
+                'border-bottom border-primary border-2 pb-1' : null}` +
+                ' unannotated-token'}
               onClick={() => onTokenClick(index)}>
               {token}
             </span>;

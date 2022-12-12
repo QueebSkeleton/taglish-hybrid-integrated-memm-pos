@@ -80,7 +80,7 @@ export default (props) => {
               <i className="fa-solid fa-search"></i>
             </InputGroup.Text>
             <Form.Control type="text" size="sm" value={search}
-              onChange={e => setSearch(e.target.value)}
+              onChange={e => { setSearch(e.target.value); setCurrentPage(1); }}
               placeholder="Search dataset by identifier..." />
           </InputGroup>
         </Col>

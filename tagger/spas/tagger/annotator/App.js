@@ -55,6 +55,13 @@ const App = () => {
     heading: null,
     text: null
   });
+  // Second alert message props
+  const [alert2Props, setAlert2Props] = useState({
+    show: false,
+    variant: null,
+    heading: null,
+    text: null
+  });
 
   const resetAnnotator = () => {
     setSentenceInput({
@@ -67,15 +74,6 @@ const App = () => {
     setCanSubmit(false);
   };
 
-  const showAlert = (show, variant, heading, text) => {
-    setAlertProps({
-      show: show,
-      variant: variant,
-      heading: heading,
-      text: text
-    });
-  };
-
   // Initializes to annotation mode with the inputted sentence
   const initializeWithSentence = (sentenceInput) => {
     setSentenceInput(sentenceInput);
@@ -83,8 +81,22 @@ const App = () => {
       // Hit API to tokenize the sentence, get response
       const response = await axios.get(
         `/tokenize/`, { params: { sentence: sentenceInput.raw } });
+
+      if('error' in response.data) {
+        setAlert2Props({
+          show: true,
+          variant: "danger",
+          heading: "Error.",
+          text: response.data.error
+        });
+        return;
+      }
+
       // TODO: Handle HTTP error codes!
       const tokens = response.data.tokens.map((token) => ({ token, tag: null }));
+      // Hide the alerts
+      setAlertProps({show: false});
+      setAlert2Props({show: false});
       setTokens(tokens);
       setAnnotating(true);
       setAnnotateIndex(0);
@@ -194,8 +206,12 @@ const App = () => {
         resetAnnotator();
         setRefreshDatasetCounter(refreshDatasetCounter + 1);
         setTimeout(() => {
-          showAlert(true, "success", "Success.",
-            `Sentence with ID ${sentenceInput['id']} been validated.`);
+          setAlertProps({
+            show: true,
+            variant: "success",
+            heading: "Success.",
+            text: `Sentence with ID ${sentenceInput['id']} been validated.`
+          });
           headerRef.current.scrollIntoView({
             behavior: 'smooth'
           });
@@ -241,8 +257,12 @@ const App = () => {
         resetAnnotator();
         setRefreshDatasetCounter(refreshDatasetCounter + 1);
         setTimeout(() => {
-          showAlert(true, "success", "Success.",
-            `Sentence with ID ${id} been ${isEdit ? 'updated' : 'created'}.`);
+          setAlertProps({
+            show: true,
+            variant: "success",
+            heading: "Success.",
+            text: `Sentence with ID ${id} been ${isEdit ? 'updated' : 'created'}.`
+          });
           headerRef.current.scrollIntoView({
             behavior: 'smooth'
           });
@@ -262,9 +282,15 @@ const App = () => {
         </Alert> : null}
       <DatasetBrowserPanel editCallback={initializeAnnotationEdit}
         refreshCounter={refreshDatasetCounter}
-        showAlertCallback={showAlert} className="mb-3" />
+        setAlertPropsCallback={setAlertProps} className="mb-3" />
       <InputSentenceForm initializeCallback={initializeWithSentence}
         disabled={isAnnotating} className="border-top pt-3 mb-3" />
+      {alert2Props.show ?
+        <Alert variant={alert2Props.variant} onClose={() => setAlert2Props({show: false})}
+          dismissible>
+          <Alert.Heading>{alert2Props.heading}</Alert.Heading>
+          <p className="mb-0">{alert2Props.text}</p>
+        </Alert> : null}
       <span ref={annotationRef} />
       {isAnnotating ?
         <SentenceAnnotationPanel className="border-top pt-3"

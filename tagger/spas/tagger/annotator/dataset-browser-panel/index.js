@@ -55,8 +55,12 @@ export default (props) => {
           setRefreshCounter(refreshCounter + 1);
         };
         deleteAnnotation().then(() => {
-          props.showAlertCallback(true, 'success', 'Success.',
-            `Sentence with ID ${sentences[index].id} has been removed.`);
+          props.setAlertPropsCallback({
+            show: true,
+            variant: "success",
+            heading: "Success.",
+            text: `Sentence with ID ${sentences[index].id} has been removed.`
+          });
         });
       }
     };

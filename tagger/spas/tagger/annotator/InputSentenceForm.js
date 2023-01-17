@@ -21,7 +21,7 @@ export default (props) => {
       </div>
       <Form.Control as="textarea" rows={3} value={sentence}
         onChange={event => setSentence(event.target.value)}
-        disabled={props.disabled} className="mb-2"></Form.Control>
+        disabled={props.disabled} className="mb-2" />
       <Button size="sm" variant="outline-primary"
         onClick={e => props.initializeCallback({ language, raw: sentence })}
         disabled={props.disabled || !language || !sentence}>

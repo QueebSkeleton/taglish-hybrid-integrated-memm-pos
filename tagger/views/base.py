@@ -33,6 +33,21 @@ def annotator(request):
 
 def tokenize(request):
     input_sentence = request.GET.get('sentence')
+
+    # TODO: Maybe make this prefilter non-repetitive
+    # with the one used in the online_model endpoint
+    # Prefilter with CLD2
+    is_reliable, text_bytes, details = cld2.detect(input_sentence)
+
+    if not is_reliable:
+        return JsonResponse({'error': 'Text is not Tagalog/English/Taglish.'})
+
+    for language_detail in details:
+        if language_detail[1] == 'un':
+            continue
+        elif language_detail[1] not in ('en', 'tl'):
+            return JsonResponse({'error': 'Text is not Tagalog/English/Taglish.'})
+
     tokens = TOKEN_PATTERN.findall(input_sentence)
     return JsonResponse({'tokens': tokens})
 

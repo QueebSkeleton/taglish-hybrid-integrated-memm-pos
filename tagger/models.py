@@ -10,6 +10,7 @@ class AnnotatedSentence(models.Model):
                                          ('TAGLISH', 'Taglish')))
     raw = models.TextField()
     annotated = models.TextField()
+    is_validated = models.BooleanField(default=False)
     extra_data = models.JSONField(null=True, blank=True)
 
 

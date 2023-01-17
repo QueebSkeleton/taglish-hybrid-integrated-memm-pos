@@ -26,5 +26,5 @@ class AnnotatedSentenceSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = AnnotatedSentence
-        fields = ('id', 'language', 'raw', 'annotated',
+        fields = ('id', 'language', 'raw', 'annotated', 'is_validated',
                   'annotationchangelog_set')

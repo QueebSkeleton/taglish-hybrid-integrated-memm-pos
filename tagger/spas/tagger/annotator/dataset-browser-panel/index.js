@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 
 import axios from 'axios';
 
-import { Button, ButtonGroup, Col, Form, InputGroup, Row, Table } from "react-bootstrap";
+import { Badge, Button, ButtonGroup, Col, Form, InputGroup, Row, Table } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
 
-import DisplaySentenceAnnotationModal from "../DisplaySentenceAnnotationModal";
+import ViewSentenceAnnotationModal from './ViewSentenceAnnotationModal';
 
 export default (props) => {
   const [sentences, setSentences] = useState([]);
@@ -14,7 +14,7 @@ export default (props) => {
   const [refreshCounter, setRefreshCounter] = useState(0);
 
   const [showViewModal, setShowViewModal] = useState(false);
-  const [rawToShow, setRawToShow] = useState(null);
+  const [sentenceIndexToShow, setSentenceIndexToShow] = useState(null);
   const [annotationToShow, setAnnotationToShow] = useState(null);
 
   // Search and pagination state
@@ -26,8 +26,7 @@ export default (props) => {
     const params = { page: currentPage };
     if (search)
       params.q = search;
-    const response =
-      await axios.get(`/api/sentences/`, { params });
+    const response = await axios.get(`/api/sentences/`, { params });
     setSentences(response.data.results);
     setTotalPages(response.data.total_pages);
   };
@@ -40,11 +39,26 @@ export default (props) => {
         return response.data.annotation;
       };
       fetchAnnotation().then((data) => {
-        setRawToShow(sentences[index].raw);
+        setSentenceIndexToShow(index);
         setAnnotationToShow(data);
         setShowViewModal(true);
       });
     };
+  };
+
+  const onValidateClick = (index) => {
+    const validateAnnotation = async () => {
+      await axios.post(`/api/validate-sentence/`, {id: sentences[index].id});
+      setRefreshCounter(refreshCounter + 1);
+    };
+    validateAnnotation().then(() => {
+      props.setAlertPropsCallback({
+        show: true,
+        variant: "success",
+        heading: "Success.",
+        text: `Sentence with ID ${sentences[index].id} has been validated.`
+      });
+    });
   };
 
   const onDeleteClick = (index) => {
@@ -97,25 +111,24 @@ export default (props) => {
           <tr>
             <th>ID</th>
             <th>Language</th>
-            <th>Last modified by</th>
+            <th>Sentence</th>
+            <th>Is Validated</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {sentences.map(({ id, language, annotationchangelog_set }, index) => {
-            const logsCount = annotationchangelog_set.length;
+          {sentences.map(({ id, language, raw, is_validated }, index) => {
             return (<tr key={id}>
               <td>{id}</td>
               <td>{language}</td>
+              <td>{raw}</td>
               <td>
-                {logsCount > 0
-                  ? annotationchangelog_set[logsCount - 1].by.email
-                  + " - " + annotationchangelog_set[logsCount - 1].description
-                  : "N/A"}
+                {is_validated ? <Badge bg="success">Yes</Badge> : <Badge bg="warning">No</Badge>}
               </td>
               <td>
                 <ButtonGroup size="sm">
-                  <Button variant="outline-info" onClick={onViewClick(index)}>
+                  <Button variant="outline-info"
+                    onClick={onViewClick(index)}>
                     <i className="fa-solid fa-eye"></i>
                   </Button>
                   <Button variant="outline-primary"
@@ -155,9 +168,10 @@ export default (props) => {
             activeClassName="active" />
         </Col>
       </Row>
-      <DisplaySentenceAnnotationModal show={showViewModal}
-        setShow={setShowViewModal}
-        raw={rawToShow} annotation={annotationToShow} />
+      <ViewSentenceAnnotationModal show={showViewModal} setShow={setShowViewModal}
+        validateCallback={onValidateClick} sentenceIndexToShow={sentenceIndexToShow}
+        sentenceToShow={sentenceIndexToShow ? sentences[sentenceIndexToShow] : null}
+        annotationToShow={annotationToShow} />
     </div>
   );
 };

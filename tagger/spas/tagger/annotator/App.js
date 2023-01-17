@@ -192,34 +192,6 @@ const App = () => {
     setTagsSummary(newTagsSummary);
   };
 
-  const onValidateClick = (e) => {
-    const validateRequest = async() => {
-      // Save "Validated" message changelog
-      await axios.post('/api/changelogs/', {
-        sentence_id: sentenceInput['id'],
-        description: 'Validated'
-      });
-    };
-
-    if(confirm('Validate this annotation?')) {
-      validateRequest().then(() => {
-        resetAnnotator();
-        setRefreshDatasetCounter(refreshDatasetCounter + 1);
-        setTimeout(() => {
-          setAlertProps({
-            show: true,
-            variant: "success",
-            heading: "Success.",
-            text: `Sentence with ID ${sentenceInput['id']} been validated.`
-          });
-          headerRef.current.scrollIntoView({
-            behavior: 'smooth'
-          });
-        }, 100);
-      });
-    }
-  };
-
   // Submits the annotated sentence to session.
   const onSubmitClick = (e) => {
     const submitRequest = async () => {
@@ -306,7 +278,6 @@ const App = () => {
           removeCurrentTokenCallback={
             () => removeTokenAtIndex(annotateIndex)}
           canSubmit={canSubmit}
-          validateCallback={onValidateClick}
           submitCallback={onSubmitClick} /> : null}
     </>
   );

@@ -83,6 +83,11 @@ def dataset_csv(request):
     return response
 
 
+@login_required(login_url=settings.TAGGER_LOGIN_URL)
+def online_model_analytics(request):
+    return render(request, "tagger/online_model_analytics.html", {})
+
+
 def browse_dataset(request):
     return render(request, "tagger/browse_dataset.html", {})
 
@@ -105,14 +110,14 @@ def online_model_annotate(request):
             continue
         elif language_detail[1] not in ('en', 'tl'):
             return JsonResponse({'error': 'Text is not Tagalog/English/Taglish.'})
-    
+
     tokens = TOKEN_PATTERN.findall(input_sentence)
 
     # Load the model
-    with open(settings.BASE_DIR / 'tagger' 
-                / 'saved_models' / 'tagger.dill', 'rb') as f:
+    with open(settings.BASE_DIR / 'tagger'
+              / 'saved_models' / 'tagger.dill', 'rb') as f:
         tagger = dill.load(f)
-    
+
     annotated_sentence = tagger.tag(tokens)
     # Transform into a JSON
     return JsonResponse({'annotation':

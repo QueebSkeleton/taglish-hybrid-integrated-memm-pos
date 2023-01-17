@@ -50,7 +50,7 @@ urlpatterns = [
     # API
     path("api/current-user/", views.current_user,
          name="current-user"),
-    path("api/changelogs/", views.save_changelog,
-         name="save_changelog"),
+    path("api/validate-sentence/", views.validate_sentence,
+         name="validate_sentence"),
     path("api/", include(router.urls)),
 ]

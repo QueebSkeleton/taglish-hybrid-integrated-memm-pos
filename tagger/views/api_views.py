@@ -42,14 +42,22 @@ def current_user(request):
 
 @login_required
 @csrf_exempt
-def save_changelog(request):
+def validate_sentence(request):
     if request.method == 'POST':
         data = json.loads(request.body)
+
+        id = data['id']
+
+        annotated_sentence = AnnotatedSentence.objects.get(pk=id)
+        annotated_sentence.is_validated = True
+        annotated_sentence.save()
+
         changelog = AnnotationChangeLog(
-            sentence=AnnotatedSentence.objects.get(pk=data['sentence_id']),
+            sentence=annotated_sentence,
             by=request.user,
-            description=data['description'])
+            description='Reviewed and validated this sentence.')
         changelog.save()
+
         return HttpResponse(status=200)
     else:
         return HttpResponse(status=400)

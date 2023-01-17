@@ -11,6 +11,8 @@ from ..utils import transform_into_listtuple, TOKEN_PATTERN
 
 import dill
 
+import pycld2 as cld2
+
 
 def index(request):
     return render(request, "tagger/index.html", {})
@@ -76,6 +78,19 @@ def online_model(request):
 
 def online_model_annotate(request):
     input_sentence = request.GET.get('sentence')
+
+    # Prefilter with CLD2
+    is_reliable, text_bytes, details = cld2.detect(input_sentence)
+
+    if not is_reliable:
+        return JsonResponse({'error': 'Text is not Tagalog/English/Taglish.'})
+
+    for language_detail in details:
+        if language_detail[1] == 'un':
+            continue
+        elif language_detail[1] not in ('en', 'tl'):
+            return JsonResponse({'error': 'Text is not Tagalog/English/Taglish.'})
+    
     tokens = TOKEN_PATTERN.findall(input_sentence)
 
     # Load the model

@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { initializeTagsSummary } from "../annotator/App";
 
-import { Badge, Button, Col, Form, Row } from "react-bootstrap";
+import { Alert, Badge, Button, Col, Form, Row } from "react-bootstrap";
 import SummaryPanel from "../annotator/annotation-panel/SummaryPanel";
 
 
@@ -43,12 +43,26 @@ const App = (props) => {
   const [annotatedTokens, setAnnotatedTokens] = useState([]);
   const [annotationSummary, setAnnotationSummary] = useState({});
 
+  const [alertShow, setAlertShow] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(null);
+
   const showResults = () => {
     const fetchAnnotation = async () => {
       const annotationResponse = await axios.get('/online-model/annotate/', {
         params: { sentence }
       });
+
+      if('error' in annotationResponse.data) {
+        setAlertShow(true);
+        setAlertMessage(annotationResponse.data.error);
+        setAnnotatedTokens([]);
+        setAnnotationSummary({});
+        return;
+      }
+
       const annotation = annotationResponse.data.annotation;
+      setAlertShow(false);
+      setAlertMessage(null);
       setAnnotatedTokens(annotation);
       setAnnotationSummary(initializeTagsSummary(annotation));
     };
@@ -60,6 +74,11 @@ const App = (props) => {
     <>
       <InputSentenceForm sentence={sentence} setSentence={setSentence}
         predictCallback={showResults} className="mb-3" />
+      <Alert show={alertShow} variant="danger" dismissible
+        onClose={() => setAlertShow(false)}>
+        <Alert.Heading>Error</Alert.Heading>
+        <p>{alertMessage}</p>
+      </Alert>
       <Row className="pt-3 border-top">
         <Col sm={6}>
           <h1 className="h5">Your annotated sentence</h1>

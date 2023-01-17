@@ -21,3 +21,9 @@ class AnnotationChangeLog(models.Model):
                            on_delete=models.SET_NULL)
     changed_on = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
+
+
+class OnlineModel(models.Model):
+    trained_model = models.BinaryField()
+    trained_on = models.DateTimeField(auto_now_add=True)
+    testing_set = models.ManyToManyField(to=AnnotatedSentence)

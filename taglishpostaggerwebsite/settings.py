@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'sass_processor',
     'widget_tweaks',
     'rest_framework',
+    'django_q',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +146,11 @@ REST_FRAMEWORK = {
 TAGGER_LOGIN_URL = reverse_lazy("tagger:login")
 
 TAGGER_MEGAM_LOCATION = os.environ.get('MEGAM_INSTALLATION_LOCATION', '/usr/bin/megam')
+
+
+# Django-Q
+
+Q_CLUSTER = {
+    "name": "tagger",
+    "orm": "default",
+}

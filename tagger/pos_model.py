@@ -31,10 +31,11 @@ class MaxentMarkovPosTagger(TaggerI):
               word_count_cutoff=2, feature_count_cutoff=2, **cutoffs):
 
         # Config NLTK with the megam installation, else fallback to GIS
-        try:
-            config_megam(settings.TAGGER_MEGAM_LOCATION)
-        except LookupError:
-            maxent_algorithm = 'IIS'
+        if maxent_algorithm == 'megam':
+            try:
+                config_megam(settings.TAGGER_MEGAM_LOCATION)
+            except LookupError:
+                maxent_algorithm = 'IIS'
 
         self.word_freqdist = self.calculate_words_freqdist(tagged_sentences)
         self.word_cutoff = word_count_cutoff
@@ -55,6 +56,7 @@ class MaxentMarkovPosTagger(TaggerI):
         # self.remove_rare_features(self.featuresets)
         self.maxentclassifier = MaxentClassifier.train(self.featuresets,
                                                        maxent_algorithm,
+                                                       max_iter=10000,
                                                        **cutoffs)
 
     def calculate_features_freqdist(self, featuresets):

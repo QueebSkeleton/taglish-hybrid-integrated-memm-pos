@@ -59,3 +59,5 @@ def retrain_online_model():
     online_model.save()
 
     online_model.testing_set.add(*(tl_testing_list + en_testing_list + tg_testing_list))
+
+    # TODO: Calculate f-measures per language testing set

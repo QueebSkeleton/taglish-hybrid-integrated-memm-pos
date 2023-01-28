@@ -5,6 +5,7 @@ import axios from 'axios';
 import InputSentenceForm from './InputSentenceForm';
 import SentenceAnnotationPanel from './annotation-panel';
 import DatasetBrowserPanel from './dataset-browser-panel';
+import ModelHealthPanel from './model-health-panel';
 
 import { POS_TAGS } from './settings';
 import { Alert } from 'react-bootstrap';
@@ -245,6 +246,7 @@ const App = () => {
 
   return (
     <>
+      <ModelHealthPanel className="mb-3"/>
       <span ref={headerRef} />
       {alertProps.show ?
         <Alert variant={alertProps.variant} onClose={() => setAlertProps({show: false})}

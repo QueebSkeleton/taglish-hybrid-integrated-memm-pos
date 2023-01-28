@@ -145,7 +145,7 @@ REST_FRAMEWORK = {
 
 TAGGER_LOGIN_URL = reverse_lazy("tagger:login")
 
-TAGGER_MEGAM_LOCATION = os.environ.get('MEGAM_INSTALLATION_LOCATION', '/usr/bin/megam')
+TAGGER_MEGAM_LOCATION = os.environ.get('MEGAM_INSTALLATION_LOCATION', '/usr/bin/megam-64.opt')
 
 
 # Django-Q

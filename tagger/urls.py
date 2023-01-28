@@ -50,5 +50,7 @@ urlpatterns = [
          name="current-user"),
     path("api/validate-sentence/", views.validate_sentence,
          name="validate_sentence"),
+    path("api/model-health/", views.online_model_health,
+         name="online_model_health"),
     path("api/", include(router.urls)),
 ]

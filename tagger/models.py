@@ -27,3 +27,6 @@ class OnlineModel(models.Model):
     trained_model = models.BinaryField()
     trained_on = models.DateTimeField(auto_now_add=True)
     testing_set = models.ManyToManyField(to=AnnotatedSentence)
+    fmeasure_tagalog = models.FloatField(default=0)
+    fmeasure_english = models.FloatField(default=0)
+    fmeasure_taglish = models.FloatField(default=0)

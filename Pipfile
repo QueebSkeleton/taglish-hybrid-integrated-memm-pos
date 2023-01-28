@@ -14,9 +14,8 @@ djangorestframework = "*"
 dill = "*"
 numpy = "*"
 python-dotenv = "*"
-pycld2 = {version = "*", sys_platform = "== 'linux'"}
-pycld2-win = {path = "pycld2-0.41-cp310-cp310-win_amd64.whl", sys_platform = "== 'win32'"}
 django-q = "*"
+gcld3 = "*"
 
 [dev-packages]
 djlint = "*"

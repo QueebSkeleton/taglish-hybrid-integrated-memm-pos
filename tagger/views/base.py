@@ -5,13 +5,11 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 
 import csv
-
-from ..models import AnnotatedSentence
-from ..utils import transform_into_listtuple, TOKEN_PATTERN
-
 import dill
+import gcld3
 
-import pycld2 as cld2
+from ..models import AnnotatedSentence, OnlineModel
+from ..utils import transform_into_listtuple, TOKEN_PATTERN
 
 
 def index(request):
@@ -34,19 +32,13 @@ def annotator(request):
 def tokenize(request):
     input_sentence = request.GET.get('sentence')
 
-    # TODO: Maybe make this prefilter non-repetitive
-    # with the one used in the online_model endpoint
-    # Prefilter with CLD2
-    is_reliable, text_bytes, details = cld2.detect(input_sentence)
+    langdetector = gcld3.NNetLanguageIdentifier(
+        min_num_bytes=0, max_num_bytes=1000)
 
-    if not is_reliable:
+    langresult = langdetector.FindLanguage(text=input_sentence)
+
+    if not langresult.is_reliable or langresult.language not in ['en', 'fil']:
         return JsonResponse({'error': 'Text is not Tagalog/English/Taglish.'})
-
-    for language_detail in details:
-        if language_detail[1] == 'un':
-            continue
-        elif language_detail[1] not in ('en', 'tl'):
-            return JsonResponse({'error': 'Text is not Tagalog/English/Taglish.'})
 
     tokens = TOKEN_PATTERN.findall(input_sentence)
     return JsonResponse({'tokens': tokens})
@@ -99,31 +91,62 @@ def online_model(request):
 def online_model_annotate(request):
     input_sentence = request.GET.get('sentence')
 
-    # Prefilter with CLD2
-    is_reliable, text_bytes, details = cld2.detect(input_sentence)
+    langdetector = gcld3.NNetLanguageIdentifier(
+        min_num_bytes=0, max_num_bytes=1000)
 
-    if not is_reliable:
+    langresult = langdetector.FindLanguage(text=input_sentence)
+
+    if not langresult.is_reliable or langresult.language not in ['en', 'fil']:
         return JsonResponse({'error': 'Text is not Tagalog/English/Taglish.'})
-
-    for language_detail in details:
-        if language_detail[1] == 'un':
-            continue
-        elif language_detail[1] not in ('en', 'tl'):
-            return JsonResponse({'error': 'Text is not Tagalog/English/Taglish.'})
 
     tokens = TOKEN_PATTERN.findall(input_sentence)
 
     # Load the model
-    with open(settings.BASE_DIR / 'tagger'
-              / 'saved_models' / 'tagger.dill', 'rb') as f:
-        tagger = dill.load(f)
-
+    # TODO: Handle no model scenario
+    online_model = OnlineModel.objects.order_by('-trained_on')[0]
+    tagger = dill.loads(online_model.trained_model)
     annotated_sentence = tagger.tag(tokens)
     # Transform into a JSON
     return JsonResponse({'annotation':
                          [{'tag': annotated_token[1],
                            'token': annotated_token[0]}
                           for annotated_token in annotated_sentence]})
+
+
+def online_model_health(request):
+    # Fetch sentences
+    tl_sentences = AnnotatedSentence.objects.filter(language='TAGALOG')
+    en_sentences = AnnotatedSentence.objects.filter(language='ENGLISH')
+    tg_sentences = AnnotatedSentence.objects.filter(language='TAGLISH')
+    tl_sentences_notvalidated = tl_sentences.filter(is_validated=False)
+    tl_sentences_validated = tl_sentences.filter(is_validated=True)
+    en_sentences_notvalidated = en_sentences.filter(is_validated=False)
+    en_sentences_validated = en_sentences.filter(is_validated=True)
+    tg_sentences_notvalidated = tg_sentences.filter(is_validated=False)
+    tg_sentences_validated = tg_sentences.filter(is_validated=True)
+
+    # Fetch last 7 model iterations
+    online_models = list(OnlineModel.objects.order_by('-id')[:7])
+    online_models.reverse()
+
+    return JsonResponse({
+        "datasetSummary": {
+            "tagalog": {"validated": len(tl_sentences_validated),
+                        "nonvalidated": len(tl_sentences_notvalidated)},
+            "english": {"validated": len(en_sentences_validated),
+                        "nonvalidated": len(en_sentences_notvalidated)},
+            "taglish": {"validated": len(tg_sentences_validated),
+                        "nonvalidated": len(tg_sentences_notvalidated)}},
+        "modelHealth": {
+            "dates": [model.trained_on.strftime("%m/%d/%Y %H%p")
+                      for model in online_models],
+            "tagalogPerformance": [
+                model.fmeasure_tagalog for model in online_models],
+            "englishPerformance": [
+                model.fmeasure_english for model in online_models],
+            "taglishPerformance": [
+                model.fmeasure_taglish for model in online_models],
+        }})
 
 
 def contact(request):

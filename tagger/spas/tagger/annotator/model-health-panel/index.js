@@ -2,22 +2,20 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
 } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 import { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
 import axios from 'axios';
 import { Col, Row, Table } from 'react-bootstrap';
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
@@ -30,16 +28,16 @@ export default (props) => {
   const [taglishPerformance, setTaglishPerformance] = useState([]);
 
   const [tagalogDatasetSummary, setTagalogDatasetSummary] = useState(
-    {validated: 0, nonvalidated: 0});
+    { validated: 0, nonvalidated: 0 });
   const [englishDatasetSummary, setEnglishDatasetSummary] = useState(
-    {validated: 0, nonvalidated: 0});
+    { validated: 0, nonvalidated: 0 });
   const [taglishDatasetSummary, setTaglishDatasetSummary] = useState(
-    {validated: 0, nonvalidated: 0});
+    { validated: 0, nonvalidated: 0 });
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(`/api/model-health/`);
-      
+
       let datasetSummaryResponse = response.data.datasetSummary;
       setTagalogDatasetSummary(datasetSummaryResponse.tagalog);
       setEnglishDatasetSummary(datasetSummaryResponse.english);
@@ -86,11 +84,17 @@ export default (props) => {
           </Table>
         </Col>
         <Col sm={5}>
-          <Line options={{
+          <Bar options={{
+            indexAxis: 'y',
+            elements: {
+              bar: {
+                borderWidth: 2,
+              },
+            },
             responsive: true,
             plugins: {
               legend: {
-                position: 'top',
+                position: 'right',
               },
               title: {
                 display: true,

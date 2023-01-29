@@ -105,7 +105,18 @@ def online_model_annotate(request):
     # TODO: Handle no model scenario
     online_model = OnlineModel.objects.order_by('-trained_on')[0]
     tagger = dill.loads(online_model.trained_model)
-    annotated_sentence = tagger.tag(tokens)
+    annotated_sentence = list(tagger.tag(tokens))
+
+    # Save the input sentence
+    sentence = AnnotatedSentence(
+        language="TAGLISH",
+        raw=input_sentence,
+        annotated=' '.join(
+            map(lambda annotated_token:
+                f"<{annotated_token[1]} {annotated_token[0]}> ",
+                annotated_sentence)))
+    sentence.save()
+
     # Transform into a JSON
     return JsonResponse({'annotation':
                          [{'tag': annotated_token[1],

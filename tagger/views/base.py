@@ -103,7 +103,7 @@ def online_model_annotate(request):
 
     # Load the model
     # TODO: Handle no model scenario
-    online_model = OnlineModel.objects.order_by('-trained_on')[0]
+    online_model = OnlineModel.objects.order_by('-id')[0]
     tagger = dill.loads(online_model.trained_model)
     annotated_sentence = list(tagger.tag(tokens))
 

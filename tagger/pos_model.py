@@ -216,8 +216,36 @@ class MaxentMarkovPosTagger(TaggerI):
         # Reverse the tags
         tags.reverse()
         return zip(unlabelled_sequence, tags)
+    
+    def weightedmean_precision(self, gold):
+        confusion = self.confusion(gold)
+        tags = confusion._values
 
-    def weighted_f_measure(self, gold):
+        weighted_precision = 0
+
+        for ref_tag in tags:
+            support = sum([confusion[ref_tag, pred_tag]
+                           for pred_tag in tags]) / confusion._total
+            tag_precision = confusion.precision(ref_tag)
+            weighted_precision += tag_precision * support
+        
+        return weighted_precision
+    
+    def weightedmean_recall(self, gold):
+        confusion = self.confusion(gold)
+        tags = confusion._values
+
+        weighted_recall = 0
+
+        for ref_tag in tags:
+            support = sum([confusion[ref_tag, pred_tag]
+                           for pred_tag in tags]) / confusion._total
+            tag_recall = confusion.recall(ref_tag)
+            weighted_recall += tag_recall * support
+        
+        return weighted_recall
+
+    def weightedmean_f_measure(self, gold):
         confusion = self.confusion(gold)
         tags = confusion._values
 

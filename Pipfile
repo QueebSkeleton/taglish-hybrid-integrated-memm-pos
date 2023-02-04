@@ -16,6 +16,9 @@ numpy = "*"
 python-dotenv = "*"
 django-q = "*"
 gcld3 = "*"
+seaborn = "*"
+pandas = "*"
+matplotlib = "*"
 
 [dev-packages]
 djlint = "*"
